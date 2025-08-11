@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "express": "^5.1.0",
+    "puppeteer": "^24.16.1"
+  },
+  "name": "music-streamer",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node src/streamer-server/index.mjs & node src/streamer-player/index.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/denniseriksson93/music-streamer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/denniseriksson93/music-streamer/issues"
+  },
+  "homepage": "https://github.com/denniseriksson93/music-streamer#readme",
+  "description": ""
+}
