@@ -1,20 +1,8 @@
 {
   "name": "music-streamer",
-  "version": "1.0.0",
-  "description": "",
-  "homepage": "https://github.com/denniseriksson93/music-streamer#readme",
-  "bugs": {
-    "url": "https://github.com/denniseriksson93/music-streamer/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/denniseriksson93/music-streamer.git"
-  },
-  "license": "ISC",
-  "author": "",
-  "main": "index.js",
+  "type": "module",
   "scripts": {
-    "dev": "node src/streamer-server/index.mjs & node src/streamer-player/index.mjs"
+    "dev": "node src/streamer-server/index.js & node src/streamer-player/index.js"
   },
   "dependencies": {
     "express": "^5.1.0",
