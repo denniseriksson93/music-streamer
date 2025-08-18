@@ -11,11 +11,11 @@ export const DIRNAME = path.dirname(fileURLToPath(import.meta.url));
 
 const app = express();
 
-app.use("/", express.static(path.join(DIRNAME, "public/streamer-remote")));
-app.use(
-  "/streamer-client",
-  express.static(path.join(DIRNAME, "public/streamer-client"))
-);
+const getStaticPath = (/** @type {string} */ staticPath) =>
+  express.static(path.join(DIRNAME, staticPath));
+
+app.use("/", getStaticPath("public/streamer-remote"));
+app.use("/streamer-client", getStaticPath("public/streamer-client"));
 
 app.get("/login", async (req, res) => {
   const code = req.query.code;

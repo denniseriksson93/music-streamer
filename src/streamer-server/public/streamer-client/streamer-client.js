@@ -1,50 +1,45 @@
-// @ts-nocheck
-
 const getAccessToken = async () => {
-  const accessTokenResponse = await fetch("/access-token");
+  const response = await fetch("/access-token");
 
-  if (!accessTokenResponse.ok) {
-    window.location.reload;
+  if (!response.ok) {
+    return undefined;
   }
 
-  return await accessTokenResponse.text();
+  return await response.text();
 };
 
+while (true) {
+  const accessToken = await getAccessToken();
+
+  if (accessToken) {
+    break;
+  } else {
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+  }
+}
+
+// @ts-ignore
 window.onSpotifyWebPlaybackSDKReady = async () => {
+  // @ts-ignore
   const player = new Spotify.Player({
     name: "Music streamer",
-    getOAuthToken: async (cb) => {
+    getOAuthToken: async (
+      /** @type {(accessToken: string | undefined) => void} */ cb
+    ) => {
       const accessToken = await getAccessToken();
       cb(accessToken);
     },
     volume: 0.5,
   });
 
-  // Ready
-  player.addListener("ready", ({ device_id }) => {
-    console.log("Ready with Device ID", device_id);
-  });
-
-  // Not Ready
-  player.addListener("not_ready", ({ device_id }) => {
-    console.log("Device ID has gone offline", device_id);
-  });
-
-  player.addListener("initialization_error", ({ message }) => {
-    console.error(message);
-  });
-
-  player.addListener("authentication_error", ({ message }) => {
-    console.error(message);
-  });
-
-  player.addListener("account_error", ({ message }) => {
-    console.error(message);
-  });
-
-  document.getElementById("togglePlay").onclick = function () {
-    player.togglePlay();
-  };
+  player.addListener("initialization_error", () => window.location.reload());
+  // player.addListener("authentication_error", () => window.location.reload());
+  player.addListener("account_error", () => window.location.reload());
 
   player.connect();
 };
+
+const script = window.document.createElement("script");
+script.src = "https://sdk.scdn.co/spotify-player.js";
+script.async = true;
+window.document.body.appendChild(script);
