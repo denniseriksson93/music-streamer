@@ -1,15 +1,21 @@
 import { fileURLToPath } from "url";
 import path from "path";
 import express from "express";
-import { getAndRefreshToken } from "./src/get-and-refresh-token.js";
-import { login } from "./src/login.js";
-import { PORT } from "./src/constants.js";
+import https from "https";
+import fs from "fs";
+import { getAndRefreshToken } from "./services/get-and-refresh-token.js";
+import { login } from "./services/login.js";
+import { PORT } from "./services/constants.js";
 
 export const DIRNAME = path.dirname(fileURLToPath(import.meta.url));
 
 const app = express();
 
-app.use(express.static(path.join(DIRNAME, "public")));
+app.use("/", express.static(path.join(DIRNAME, "public/streamer-remote")));
+app.use(
+  "/streamer-client",
+  express.static(path.join(DIRNAME, "public/streamer-client"))
+);
 
 app.get("/login", async (req, res) => {
   const code = req.query.code;
@@ -28,6 +34,14 @@ app.get("/access-token", async (_, res) => {
   res.send(accessToken);
 });
 
-app.listen(PORT, () => {
-  console.log(`Listening on port http://localhost:${PORT}`);
-});
+https
+  .createServer(
+    {
+      key: fs.readFileSync(path.join(DIRNAME, "../../key.pem")),
+      cert: fs.readFileSync(path.join(DIRNAME, "../../cert.pem")),
+    },
+    app
+  )
+  .listen(PORT, () => {
+    console.log(`Listening on port https://192.168.68.56:${PORT}`);
+  });
