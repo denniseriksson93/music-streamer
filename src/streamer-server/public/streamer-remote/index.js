@@ -1,5 +1,4 @@
-const BACKEND_IP = "192.168.68.56";
-const BACKEND_URL = `https://${BACKEND_IP}:3000`;
+const BACKEND_URL = location.origin;
 const REDIRECT_URI = `${location.protocol}//${location.host}${location.pathname}`;
 const CLIENT_ID = "ec93c4e175eb4f979a2a2b810601a679";
 

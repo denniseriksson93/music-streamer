@@ -2,9 +2,34 @@
 <html>
   <head>
     <title>Streamer remote</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#000000" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+      rel="stylesheet"
+    />
+    <link href="index.css" type="text/css" rel="stylesheet" />
   </head>
   <body>
-    I'm a remote
-    <script type="module" src="streamer-remote.js"></script>
+    <div class="content-container">
+      <div class="item-row">
+        <button>Add device</button>
+      </div>
+      <div class="item-row">
+        <div>Volym</div>
+        <div class="volume-buttons-container">
+          <button>-</button>
+          <button>+</button>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="index.js"></script>
   </body>
 </html>
