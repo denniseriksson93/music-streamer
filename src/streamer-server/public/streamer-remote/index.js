@@ -1,3 +1,8 @@
+import { addDevice } from "./components/add-device.js";
+import { devices } from "./components/devices.js";
+import { globalVolume } from "./components/global-volume.js";
+import { STATE } from "./state.js";
+
 const BACKEND_URL = location.origin;
 const REDIRECT_URI = `${location.protocol}//${location.host}${location.pathname}`;
 const CLIENT_ID = "ec93c4e175eb4f979a2a2b810601a679";
@@ -36,3 +41,9 @@ if (code) {
     window.location.href = url.toString();
   }
 }
+
+STATE.registerCallbackFunction(addDevice.render);
+STATE.registerCallbackFunction(globalVolume.render);
+STATE.registerCallbackFunction(devices.render);
+
+STATE.set({});
