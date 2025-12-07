@@ -1,4 +1,7 @@
-import { CLIENT_ID, SPOTIFY_AUTH_API_URL } from "./constants.js";
+import {
+  CLIENT_ID,
+  SPOTIFY_AUTH_API_URL,
+} from "../public/streamer-remote/services/constants.js";
 import { databaseRepository } from "./database-repository.js";
 
 export const getAndRefreshToken = async () => {

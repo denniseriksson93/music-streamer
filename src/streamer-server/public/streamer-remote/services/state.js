@@ -18,6 +18,13 @@ let state = {
       customName: "Living room",
       volume: 30000,
     },
+    {
+      id: "2135235234",
+      connected: true,
+      name: "BOSE Sound Link mini",
+      customName: "Bathroom",
+      volume: 90000,
+    },
   ],
 };
 

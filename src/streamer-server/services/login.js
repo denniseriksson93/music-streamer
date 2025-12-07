@@ -1,20 +1,14 @@
-import { CLIENT_ID, SPOTIFY_AUTH_API_URL } from "./constants.js";
+import {
+  CLIENT_ID,
+  SPOTIFY_AUTH_API_URL,
+} from "../public/streamer-remote/services/constants.js";
 import { databaseRepository } from "./database-repository.js";
 
 export const login = async (
   /** @type {string} */ code,
   /** @type {string} */ redirectUri
 ) => {
-  const {
-    clientSecret,
-    token: { accessToken, expiresAt },
-  } = await databaseRepository.getData();
-
-  const date = new Date();
-
-  if (new Date(expiresAt).getTime() > date.getTime()) {
-    return accessToken;
-  }
+  const { clientSecret } = await databaseRepository.getData();
 
   const response = await fetch(`${SPOTIFY_AUTH_API_URL}/api/token`, {
     method: "POST",
@@ -30,11 +24,13 @@ export const login = async (
   });
 
   if (!response.ok) {
-    return undefined;
+    throw new Error("unable to login");
   }
 
   /** @type {{access_token: string, expires_in: number, refresh_token: string}} */
   const { access_token, expires_in, refresh_token } = await response.json();
+
+  const date = new Date();
 
   date.setSeconds(date.getSeconds() + expires_in - 30);
 
@@ -45,6 +41,4 @@ export const login = async (
       refreshToken: refresh_token,
     },
   });
-
-  return accessToken;
 };
