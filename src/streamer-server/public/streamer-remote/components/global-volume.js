@@ -36,11 +36,11 @@ export const globalVolume = {
 };
 
 const incrementVolumeOnAllDevices = (/** @type {number} */ increment) => {
-  const newState = STATE.get();
+  const { devices } = STATE.get();
 
-  newState.devices.forEach((device) => {
+  devices.forEach((device) => {
     device.volume += increment;
   });
 
-  STATE.set(newState);
+  STATE.set({ devices });
 };
