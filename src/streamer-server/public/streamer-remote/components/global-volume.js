@@ -1,3 +1,4 @@
+import { iconElement } from "../elements.js/icon-element.js";
 import { STATE } from "../services/state.js";
 
 export const globalVolume = {
@@ -12,13 +13,13 @@ export const globalVolume = {
     volumeLabelContainer.innerText = "Volym";
 
     const minusButton = document.createElement("button");
-    minusButton.innerText = "-";
+    minusButton.appendChild(iconElement("do_not_disturb_on"));
     minusButton.addEventListener("click", () =>
       incrementVolumeOnAllDevices(-1000)
     );
 
     const plusButton = document.createElement("button");
-    plusButton.innerText = "+";
+    plusButton.appendChild(iconElement("add_circle"));
     plusButton.addEventListener("click", () =>
       incrementVolumeOnAllDevices(1000)
     );

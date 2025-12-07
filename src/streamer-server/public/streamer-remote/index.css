@@ -192,3 +192,9 @@ input[disabled] {
   gap: 16px;
   flex-grow: 1;
 }
+
+.icon-text-container {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}

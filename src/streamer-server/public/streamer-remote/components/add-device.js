@@ -1,3 +1,5 @@
+import { iconTextElement } from "../elements.js/icon-text-element.js";
+
 export const addDevice = {
   render: () => {
     const addDeviceContainer = document.getElementById("add-device");
@@ -7,7 +9,7 @@ export const addDevice = {
     }
 
     const addDeviceButton = document.createElement("button");
-    addDeviceButton.innerHTML = "Add device";
+    addDeviceButton.appendChild(iconTextElement("add_circle", "Add device"));
 
     addDeviceContainer.replaceChildren(addDeviceButton);
   },
