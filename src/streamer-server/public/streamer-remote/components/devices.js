@@ -1,3 +1,4 @@
+import { DEVICE_MAX_VOLUME } from "../services/constants.js";
 import { STATE } from "../services/state.js";
 
 export const devices = {
@@ -8,32 +9,51 @@ export const devices = {
       throw new Error("element with id 'devices' is missing in the DOM");
     }
 
-    const devices = STATE.get().devices.map(({ name, customName, volume }) => {
-      const nameContainer = document.createElement("div");
-      nameContainer.innerText = customName ?? name;
+    const devices = STATE.get().devices.map(
+      ({ id, name, customName, volume }) => {
+        const nameContainer = document.createElement("div");
+        nameContainer.innerText = customName ?? name;
 
-      const volumeSlider = document.createElement("input");
-      volumeSlider.setAttribute("type", "range");
-      volumeSlider.setAttribute("value", (volume / 1000).toString());
+        const volumeSlider = document.createElement("input");
+        volumeSlider.setAttribute("type", "range");
+        volumeSlider.setAttribute("min", "0");
+        volumeSlider.setAttribute("max", DEVICE_MAX_VOLUME.toString());
+        volumeSlider.setAttribute("value", volume.toString());
+        volumeSlider.addEventListener("change", (event) => {
+          const { devices } = STATE.get();
+          const thisDevice = devices.find((device) => device.id === id);
 
-      const nameVolumeContainer = document.createElement("div");
-      nameVolumeContainer.setAttribute("class", "name-volume-container");
-      nameVolumeContainer.appendChild(nameContainer);
-      nameVolumeContainer.appendChild(volumeSlider);
+          if (
+            thisDevice &&
+            event.target &&
+            "value" in event.target &&
+            typeof event.target.value === "string"
+          ) {
+            thisDevice.volume = +event.target.value;
 
-      const settingsButton = document.createElement("button");
-      settingsButton.innerText = "Settings";
+            STATE.set({ devices });
+          }
+        });
 
-      const settingsContainer = document.createElement("div");
-      settingsContainer.appendChild(settingsButton);
+        const nameVolumeContainer = document.createElement("div");
+        nameVolumeContainer.setAttribute("class", "name-volume-container");
+        nameVolumeContainer.appendChild(nameContainer);
+        nameVolumeContainer.appendChild(volumeSlider);
 
-      const deviceContainer = document.createElement("div");
-      deviceContainer.setAttribute("class", "device-container");
-      deviceContainer.appendChild(nameVolumeContainer);
-      deviceContainer.appendChild(settingsContainer);
+        const settingsButton = document.createElement("button");
+        settingsButton.innerText = "Settings";
 
-      return deviceContainer;
-    });
+        const settingsContainer = document.createElement("div");
+        settingsContainer.appendChild(settingsButton);
+
+        const deviceContainer = document.createElement("div");
+        deviceContainer.setAttribute("class", "device-container");
+        deviceContainer.appendChild(nameVolumeContainer);
+        deviceContainer.appendChild(settingsContainer);
+
+        return deviceContainer;
+      }
+    );
 
     devicesContainer.replaceChildren(...devices);
   },

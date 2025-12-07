@@ -15,13 +15,13 @@ export const globalVolume = {
     const minusButton = document.createElement("button");
     minusButton.appendChild(iconElement("do_not_disturb_on"));
     minusButton.addEventListener("click", () =>
-      incrementVolumeOnAllDevices(-1000)
+      incrementVolumeOnAllDevices(-5_000)
     );
 
     const plusButton = document.createElement("button");
     plusButton.appendChild(iconElement("add_circle"));
     plusButton.addEventListener("click", () =>
-      incrementVolumeOnAllDevices(1000)
+      incrementVolumeOnAllDevices(5_000)
     );
 
     const volumeButtonsContainer = document.createElement("div");
