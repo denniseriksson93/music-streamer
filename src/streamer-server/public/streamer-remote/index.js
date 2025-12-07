@@ -7,9 +7,9 @@ import { STATE } from "./services/state.js";
 const isSignedIn = await signInToSpotify();
 
 if (isSignedIn) {
-  STATE.registerCallbackFunction(addDevice.render);
-  STATE.registerCallbackFunction(globalVolume.render);
-  STATE.registerCallbackFunction(devices.render);
+  addDevice.render();
+  globalVolume.render();
+  devices.render();
 
-  STATE.set({});
+  STATE.registerOnStateChanged("devices", devices.render);
 }

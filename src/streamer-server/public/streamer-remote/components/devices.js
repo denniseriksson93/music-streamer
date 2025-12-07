@@ -2,6 +2,12 @@ import { STATE } from "../services/state.js";
 
 export const devices = {
   render: () => {
+    const devicesContainer = document.getElementById("devices");
+
+    if (!devicesContainer) {
+      throw new Error("element with id 'devices' is missing in the DOM");
+    }
+
     const devices = STATE.get().devices.map(({ name, customName, volume }) => {
       const nameContainer = document.createElement("div");
       nameContainer.innerText = customName ?? name;
@@ -28,12 +34,6 @@ export const devices = {
 
       return deviceContainer;
     });
-
-    const devicesContainer = document.getElementById("devices");
-
-    if (!devicesContainer) {
-      throw new Error("element with id 'devices' is missing in the DOM");
-    }
 
     devicesContainer.replaceChildren(...devices);
   },

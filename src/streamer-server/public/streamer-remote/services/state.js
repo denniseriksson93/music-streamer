@@ -29,16 +29,23 @@ let state = {
 };
 
 /**
- * @type {(() => void)[]}
+ * @type {([keyof State, () => void])[]}
  */
-const callbackFunctions = [() => console.log("")];
+const onStateChangedCallbacks = [];
 
 export const STATE = {
   get: () => ({ ...state }),
-  set: (/** @type {Partial<State>} */ partialNewState) => {
-    state = { ...state, ...partialNewState };
-    callbackFunctions.forEach((callbackFunction) => callbackFunction());
+  set: (/** @type {Partial<State>} */ newPartialState) => {
+    state = { ...state, ...newPartialState };
+
+    onStateChangedCallbacks.forEach(([property, callback]) => {
+      if (property in newPartialState) {
+        callback();
+      }
+    });
   },
-  registerCallbackFunction: (/** @type {() => void} */ callbackFunction) =>
-    callbackFunctions.push(callbackFunction),
+  registerOnStateChanged: (
+    /**@type {keyof State} */ property,
+    /** @type {() => void} */ callback
+  ) => onStateChangedCallbacks.push([property, callback]),
 };
