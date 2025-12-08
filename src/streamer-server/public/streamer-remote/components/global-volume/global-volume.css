@@ -1,0 +1,10 @@
+#global-volume {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+#global-volume .volume-buttons-container {
+  display: flex;
+  gap: 16px;
+}

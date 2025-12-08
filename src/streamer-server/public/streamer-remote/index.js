@@ -1,6 +1,6 @@
-import { addDevice } from "./components/add-device.js";
-import { devices } from "./components/devices.js";
-import { globalVolume } from "./components/global-volume.js";
+import { addDevice } from "./components/add-device/add-device.js";
+import { devices } from "./components/devices/devices.js";
+import { globalVolume } from "./components/global-volume/global-volume.js";
 import { signInToSpotify } from "./services/sign-in-to-spotify.js";
 import { STATE } from "./services/state.js";
 

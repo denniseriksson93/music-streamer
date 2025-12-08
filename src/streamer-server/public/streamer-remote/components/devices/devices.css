@@ -1,0 +1,24 @@
+#devices {
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+
+#devices .device-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+#devices .name-settings-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-grow: 1;
+}
+
+#devices .name-container {
+  display: flex;
+  align-items: center;
+}

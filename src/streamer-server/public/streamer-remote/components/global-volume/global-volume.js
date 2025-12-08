@@ -1,5 +1,5 @@
-import { iconElement } from "../elements.js/icon-element.js";
-import { STATE } from "../services/state.js";
+import { iconElement } from "../../elements/icon-element.js";
+import { STATE } from "../../services/state.js";
 
 export const globalVolume = {
   render: () => {

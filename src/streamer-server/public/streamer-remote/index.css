@@ -49,10 +49,6 @@ body {
   }
 }
 
-img {
-  display: block;
-}
-
 button,
 input {
   display: flex;
@@ -186,42 +182,6 @@ input[type="range"]::-webkit-slider-thumb:active {
   margin-bottom: 0;
   margin-left: auto;
   margin-right: auto;
-}
-
-#add-device {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-#global-volume {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.volume-buttons-container {
-  display: flex;
-  gap: 16px;
-}
-
-#devices {
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-}
-
-.device-container {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-}
-
-.name-volume-container {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  flex-grow: 1;
 }
 
 .icon-text-container {

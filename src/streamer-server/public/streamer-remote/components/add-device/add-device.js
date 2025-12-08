@@ -1,4 +1,4 @@
-import { iconTextElement } from "../elements.js/icon-text-element.js";
+import { iconTextElement } from "../../elements/icon-text-element.js";
 
 export const addDevice = {
   render: () => {
