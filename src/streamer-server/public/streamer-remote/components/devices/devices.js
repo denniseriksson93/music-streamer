@@ -53,7 +53,11 @@ export const devices = {
         deviceContainer.appendChild(nameVolumeContainer);
         deviceContainer.appendChild(volumeSlider);
 
-        return deviceContainer;
+        const frostedGlassContainer = document.createElement("div");
+        frostedGlassContainer.setAttribute("class", "frosted-glass");
+        frostedGlassContainer.appendChild(deviceContainer);
+
+        return frostedGlassContainer;
       }
     );
 
