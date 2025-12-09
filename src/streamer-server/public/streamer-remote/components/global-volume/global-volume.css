@@ -1,4 +1,4 @@
-#global-volume {
+#global-volume .global-volume-content {
   display: flex;
   flex-direction: column;
   gap: 16px;

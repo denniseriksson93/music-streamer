@@ -11,10 +11,18 @@ export const devices = {
     }
 
     const devices = STATE.get().devices.map(
-      ({ id, name, customName, volume }) => {
+      ({ id, connected, name, customName, volume }) => {
         const nameContainer = document.createElement("div");
-        nameContainer.setAttribute("class", "name-container");
         nameContainer.innerText = customName ?? name;
+
+        const statusContainer = document.createElement("div");
+        statusContainer.setAttribute("class", "status-container");
+        statusContainer.innerText = connected ? "Connected" : "Disconnected";
+
+        const nameStatusContainer = document.createElement("div");
+        nameStatusContainer.setAttribute("class", "name-status-container");
+        nameStatusContainer.appendChild(nameContainer);
+        nameStatusContainer.appendChild(statusContainer);
 
         const settingsButton = document.createElement("button");
         settingsButton.appendChild(iconElement("settings"));
@@ -24,7 +32,7 @@ export const devices = {
 
         const nameVolumeContainer = document.createElement("div");
         nameVolumeContainer.setAttribute("class", "name-settings-container");
-        nameVolumeContainer.appendChild(nameContainer);
+        nameVolumeContainer.appendChild(nameStatusContainer);
         nameVolumeContainer.appendChild(settingsContainer);
 
         const volumeSlider = document.createElement("input");

@@ -10,7 +10,7 @@ export const globalVolume = {
     }
 
     const volumeLabelContainer = document.createElement("div");
-    volumeLabelContainer.innerText = "Volym";
+    volumeLabelContainer.innerText = "Volume";
 
     const minusButton = document.createElement("button");
     minusButton.appendChild(iconElement("do_not_disturb_on"));
@@ -29,10 +29,16 @@ export const globalVolume = {
     volumeButtonsContainer.appendChild(minusButton);
     volumeButtonsContainer.appendChild(plusButton);
 
-    globalVolumeContainer.replaceChildren(
-      volumeLabelContainer,
-      volumeButtonsContainer
-    );
+    const globalVolumeContent = document.createElement("div");
+    globalVolumeContent.setAttribute("class", "global-volume-content");
+    globalVolumeContent.appendChild(volumeLabelContainer);
+    globalVolumeContent.appendChild(volumeButtonsContainer);
+
+    const frostedGlassContainer = document.createElement("div");
+    frostedGlassContainer.setAttribute("class", "frosted-glass");
+    frostedGlassContainer.appendChild(globalVolumeContent);
+
+    globalVolumeContainer.replaceChildren(frostedGlassContainer);
   },
 };
 

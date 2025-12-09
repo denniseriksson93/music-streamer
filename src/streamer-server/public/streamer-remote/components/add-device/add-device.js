@@ -11,6 +11,17 @@ export const addDevice = {
     const addDeviceButton = document.createElement("button");
     addDeviceButton.appendChild(iconTextElement("add_circle", "Add device"));
 
-    addDeviceContainer.replaceChildren(addDeviceButton);
+    const addDeviceButtonContainer = document.createElement("div");
+    addDeviceButtonContainer.setAttribute(
+      "class",
+      "add-device-button-container"
+    );
+    addDeviceButtonContainer.appendChild(addDeviceButton);
+
+    const frostedGlassContainer = document.createElement("div");
+    frostedGlassContainer.setAttribute("class", "frosted-glass");
+    frostedGlassContainer.appendChild(addDeviceButtonContainer);
+
+    addDeviceContainer.replaceChildren(frostedGlassContainer);
   },
 };

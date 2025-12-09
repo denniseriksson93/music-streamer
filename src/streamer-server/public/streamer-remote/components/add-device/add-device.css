@@ -3,3 +3,8 @@
   flex-direction: column;
   gap: 16px;
 }
+
+#add-device .add-device-button-container {
+  display: flex;
+  flex-grow: 1;
+}
