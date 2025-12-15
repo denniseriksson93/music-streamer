@@ -164,22 +164,18 @@ input[type="range"]::-webkit-slider-thumb:active {
 
 .main-container {
   display: flex;
-  flex-direction: column;
   flex-grow: 1;
+  align-items: flex-start;
 }
 
 .content-container {
   display: flex;
   flex-direction: column;
-  gap: 32px;
+  gap: 16px;
   flex-grow: 1;
   max-width: 1400px;
-  padding-top: 32px;
-  padding-bottom: 0;
-  padding-left: 16px;
-  padding-right: 16px;
+  padding: 16px;
   margin-top: 52px;
-  margin-bottom: 0;
   margin-left: auto;
   margin-right: auto;
 }

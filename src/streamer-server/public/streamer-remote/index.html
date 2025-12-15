@@ -16,6 +16,11 @@
     />
     <link href="index.css" type="text/css" rel="stylesheet" />
     <link
+      href="components/header/header.css"
+      type="text/css"
+      rel="stylesheet"
+    />
+    <link
       href="components/add-device/add-device.css"
       type="text/css"
       rel="stylesheet"
@@ -30,12 +35,22 @@
       type="text/css"
       rel="stylesheet"
     />
+    <link
+      href="components/divider/divider.css"
+      type="text/css"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <div class="content-container">
-      <div id="global-volume"></div>
-      <div id="devices"></div>
-      <div id="add-device"></div>
+    <div class="main-container">
+      <div id="header"></div>
+      <div class="content-container">
+        <div id="global-volume"></div>
+        <div id="divider-1"></div>
+        <div id="devices"></div>
+        <div id="divider-2"></div>
+        <div id="add-device"></div>
+      </div>
     </div>
     <script type="module" src="index.js"></script>
   </body>
