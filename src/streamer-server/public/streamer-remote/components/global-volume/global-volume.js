@@ -1,6 +1,8 @@
 import { iconElement } from "../../elements/icon-element.js";
 import { STATE } from "../../services/state.js";
 
+const VOLUME_STEP = 3_000;
+
 export const globalVolume = {
   render: () => {
     const globalVolumeContainer = document.getElementById("global-volume");
@@ -15,13 +17,13 @@ export const globalVolume = {
     const minusButton = document.createElement("button");
     minusButton.appendChild(iconElement("do_not_disturb_on"));
     minusButton.addEventListener("click", () =>
-      incrementVolumeOnAllDevices(-5_000)
+      incrementVolumeOnAllDevices(-VOLUME_STEP)
     );
 
     const plusButton = document.createElement("button");
     plusButton.appendChild(iconElement("add_circle"));
     plusButton.addEventListener("click", () =>
-      incrementVolumeOnAllDevices(5_000)
+      incrementVolumeOnAllDevices(VOLUME_STEP)
     );
 
     const volumeButtonsContainer = document.createElement("div");
