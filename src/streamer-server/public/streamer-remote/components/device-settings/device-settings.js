@@ -21,6 +21,8 @@ export const deviceSettings = {
       return;
     }
 
+    const editingState = { ...selectedDevice };
+
     const name = document.createElement("div");
     name.innerText = selectedDevice.name;
 
@@ -30,6 +32,15 @@ export const deviceSettings = {
     const customNameInput = document.createElement("input");
     customNameInput.setAttribute("type", "text");
     customNameInput.setAttribute("value", selectedDevice.customName);
+    customNameInput.addEventListener("input", (event) => {
+      if (
+        event.target &&
+        "value" in event.target &&
+        typeof event.target.value === "string"
+      ) {
+        editingState.customName = event.target.value;
+      }
+    });
 
     const customNameContainer = document.createElement("div");
     customNameContainer.setAttribute("class", "custom-name-container");
@@ -51,6 +62,17 @@ export const deviceSettings = {
     const saveAndCloseButton = document.createElement("button");
     saveAndCloseButton.setAttribute("class", "full-width");
     saveAndCloseButton.appendChild(iconTextElement("save", "Save"));
+    saveAndCloseButton.addEventListener("click", () => {
+      const { devices } = STATE.get();
+
+      const deviceToUpdate = devices.find(({ id }) => id === selectedDeviceId);
+
+      if (deviceToUpdate) {
+        Object.assign(deviceToUpdate, editingState);
+      }
+
+      STATE.set({ devices, selectedDeviceId: undefined });
+    });
 
     const buttonsContainer = document.createElement("div");
     buttonsContainer.setAttribute("class", "buttons-container");
