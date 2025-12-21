@@ -1,6 +1,6 @@
 /**
  * @typedef State
- * @prop {{ id: string; connected: boolean; name: string; customName: string; volume: number; }[]} devices
+ * @prop {{ id: string; connected: boolean; name: string; customName: string; volume: number; latencyOffset: number }[]} devices
  * @prop {string | undefined} selectedDeviceId
  */
 
@@ -15,6 +15,7 @@ let state = {
       name: "Sony XB10",
       customName: "Kitchen speaker",
       volume: 10_000,
+      latencyOffset: 0,
     },
     {
       id: "2135235234",
@@ -22,6 +23,7 @@ let state = {
       name: "JBL 124ls",
       customName: "Living room",
       volume: 30_000,
+      latencyOffset: 0,
     },
     {
       id: "21352356235",
@@ -29,6 +31,7 @@ let state = {
       name: "BOSE Sound Link mini",
       customName: "Bathroom",
       volume: 90_000,
+      latencyOffset: 0,
     },
   ],
   selectedDeviceId: undefined,
