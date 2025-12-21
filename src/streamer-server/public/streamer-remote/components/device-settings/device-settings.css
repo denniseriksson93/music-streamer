@@ -1,7 +1,7 @@
 #device-settings .main-container {
   position: fixed;
   z-index: 2;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.8);
   top: 0;
   left: 0;
   right: 0;
@@ -13,17 +13,23 @@
   position: fixed;
   z-index: 3;
   background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: saturate(200%) blur(20px);
   left: 50%;
-  width: calc(100% - 64px);
+  width: calc(100% - 66px);
   max-width: 1400px;
   overflow: auto;
-  padding: 16px;
   border-radius: 4px;
   top: 16px;
   bottom: 16px;
   transform: translateX(-50%);
   margin-top: 52px;
+}
+
+#device-settings .settings-button-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-grow: 1;
+  gap: 16px;
 }
 
 #device-settings .settings-container {
@@ -32,17 +38,14 @@
   gap: 16px;
 }
 
+#device-settings .name {
+  font-weight: 800;
+}
+
 #device-settings .custom-name-container {
   display: flex;
   flex-direction: column;
   gap: 8px;
-}
-
-#device-settings .settings-button-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  flex-grow: 1;
 }
 
 #device-settings .buttons-container {

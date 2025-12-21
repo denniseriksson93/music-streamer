@@ -1,4 +1,3 @@
-import { iconElement } from "../../elements/icon-element.js";
 import { iconTextElement } from "../../elements/icon-text-element.js";
 import { STATE } from "../../services/state.js";
 
@@ -24,6 +23,7 @@ export const deviceSettings = {
     const editingState = { ...selectedDevice };
 
     const name = document.createElement("div");
+    name.setAttribute("class", "name");
     name.innerText = selectedDevice.name;
 
     const customNameLabel = document.createElement("div");
@@ -85,7 +85,7 @@ export const deviceSettings = {
     settingsButtonsContainer.appendChild(buttonsContainer);
 
     const contentContainer = document.createElement("div");
-    contentContainer.setAttribute("class", "content-container");
+    contentContainer.setAttribute("class", "content-container frosted-glass");
     contentContainer.appendChild(settingsButtonsContainer);
 
     const mainContainer = document.createElement("div");

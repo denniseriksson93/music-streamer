@@ -165,13 +165,13 @@ input[type="range"]::-webkit-slider-thumb:active {
   transform: scale(1.4);
 }
 
-.global-main-container {
+#main-container {
   display: flex;
   flex-grow: 1;
   align-items: flex-start;
 }
 
-.global-content-container {
+#content-container {
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -205,4 +205,8 @@ input[type="range"]::-webkit-slider-thumb:active {
   width: calc(100% - 8px);
   border-radius: 1px;
   margin-left: 4px;
+}
+
+.hide {
+  display: none;
 }
