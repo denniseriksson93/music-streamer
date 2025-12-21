@@ -16,5 +16,6 @@ if (isSignedIn) {
   divider.render("2");
   addDevice.render();
 
+  STATE.registerOnStateChanged("devices", globalVolume.render);
   STATE.registerOnStateChanged("devices", devices.render);
 }
