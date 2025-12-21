@@ -198,3 +198,11 @@ input[type="range"]::-webkit-slider-thumb:active {
   border: 1px solid rgba(255, 255, 255, 0.3);
   padding: 16px;
 }
+
+.divider {
+  background-color: #ffffff;
+  height: 2px;
+  width: calc(100% - 8px);
+  border-radius: 1px;
+  margin-left: 4px;
+}
