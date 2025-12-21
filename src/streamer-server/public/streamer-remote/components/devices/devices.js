@@ -26,6 +26,9 @@ export const devices = {
 
         const settingsButton = document.createElement("button");
         settingsButton.appendChild(iconElement("settings"));
+        settingsButton.addEventListener("click", () => {
+          STATE.set({ selectedDeviceId: id });
+        });
 
         const settingsContainer = document.createElement("div");
         settingsContainer.appendChild(settingsButton);

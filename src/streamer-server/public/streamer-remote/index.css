@@ -165,13 +165,13 @@ input[type="range"]::-webkit-slider-thumb:active {
   transform: scale(1.4);
 }
 
-.main-container {
+.global-main-container {
   display: flex;
   flex-grow: 1;
   align-items: flex-start;
 }
 
-.content-container {
+.global-content-container {
   display: flex;
   flex-direction: column;
   gap: 16px;

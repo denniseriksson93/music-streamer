@@ -1,6 +1,11 @@
 /**
  * @typedef State
  * @prop {{ id: string; connected: boolean; name: string; customName: string; volume: number; }[]} devices
+ * @prop {string | undefined} selectedDeviceId
+ */
+
+/**
+ * @type State
  */
 let state = {
   devices: [
@@ -26,6 +31,7 @@ let state = {
       volume: 90_000,
     },
   ],
+  selectedDeviceId: undefined,
 };
 
 /**
