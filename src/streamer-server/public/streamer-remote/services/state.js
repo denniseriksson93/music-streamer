@@ -1,7 +1,17 @@
 /**
+ * @typedef Device
+ * @prop {string} id
+ * @prop {boolean} connected
+ * @prop {string} name
+ * @prop {string} customName
+ * @prop {number} volume
+ * @prop {number} latencyOffset
+ */
+
+/**
  * @typedef State
- * @prop {{ id: string; connected: boolean; name: string; customName: string; volume: number; latencyOffset: number }[]} devices
- * @prop {string | undefined} selectedDeviceId
+ * @prop {Device[]} devices
+ * @prop {Device|undefined} editingDevice
  */
 
 /**
@@ -34,7 +44,7 @@ let state = {
       latencyOffset: 0,
     },
   ],
-  selectedDeviceId: undefined,
+  editingDevice: undefined,
 };
 
 /**

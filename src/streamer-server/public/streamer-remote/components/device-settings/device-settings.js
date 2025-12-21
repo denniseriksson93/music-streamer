@@ -12,34 +12,31 @@ export const deviceSettings = {
       );
     }
 
-    const { devices, selectedDeviceId } = STATE.get();
+    const { editingDevice } = STATE.get();
 
-    const selectedDevice = devices.find(({ id }) => id === selectedDeviceId);
-
-    if (!selectedDevice) {
+    if (!editingDevice) {
       deviceSettingsContainer.replaceChildren();
       return;
     }
 
-    const editingState = { ...selectedDevice };
-
     const name = document.createElement("div");
     name.setAttribute("class", "name");
-    name.innerText = selectedDevice.name;
+    name.innerText = editingDevice.name;
 
     const customNameLabel = document.createElement("div");
     customNameLabel.innerText = "Custom name";
 
     const customNameInput = document.createElement("input");
     customNameInput.setAttribute("type", "text");
-    customNameInput.setAttribute("value", selectedDevice.customName);
-    customNameInput.addEventListener("input", (event) => {
+    customNameInput.setAttribute("value", editingDevice.customName);
+    customNameInput.addEventListener("change", (event) => {
       if (
         event.target &&
         "value" in event.target &&
         typeof event.target.value === "string"
       ) {
-        editingState.customName = event.target.value;
+        editingDevice.customName = event.target.value;
+        STATE.set({ editingDevice });
       }
     });
 
@@ -53,12 +50,20 @@ export const deviceSettings = {
 
     const latencyOffsetMinusButton = document.createElement("button");
     latencyOffsetMinusButton.appendChild(iconElement("do_not_disturb_on"));
+    latencyOffsetMinusButton.addEventListener("click", () => {
+      editingDevice.latencyOffset -= 10;
+      STATE.set({ editingDevice });
+    });
 
     const latencyOffsetValue = document.createElement("div");
-    latencyOffsetValue.innerText = selectedDevice.latencyOffset.toString();
+    latencyOffsetValue.innerText = editingDevice.latencyOffset.toString();
 
     const latencyOffsetPlusButton = document.createElement("button");
     latencyOffsetPlusButton.appendChild(iconElement("add_circle"));
+    latencyOffsetPlusButton.addEventListener("click", () => {
+      editingDevice.latencyOffset += 10;
+      STATE.set({ editingDevice });
+    });
 
     const latencyOffsetInputContainer = document.createElement("div");
     latencyOffsetInputContainer.setAttribute(
@@ -84,7 +89,7 @@ export const deviceSettings = {
     closeButton.setAttribute("class", "full-width button-secondary");
     closeButton.appendChild(iconTextElement("close", "Close"));
     closeButton.addEventListener("click", () =>
-      STATE.set({ selectedDeviceId: undefined })
+      STATE.set({ editingDevice: undefined })
     );
 
     const saveAndCloseButton = document.createElement("button");
@@ -93,13 +98,13 @@ export const deviceSettings = {
     saveAndCloseButton.addEventListener("click", () => {
       const { devices } = STATE.get();
 
-      const deviceToUpdate = devices.find(({ id }) => id === selectedDeviceId);
+      const deviceToUpdate = devices.find(({ id }) => id === editingDevice.id);
 
       if (deviceToUpdate) {
-        Object.assign(deviceToUpdate, editingState);
+        Object.assign(deviceToUpdate, editingDevice);
       }
 
-      STATE.set({ devices, selectedDeviceId: undefined });
+      STATE.set({ devices, editingDevice: undefined });
     });
 
     const buttonsContainer = document.createElement("div");
