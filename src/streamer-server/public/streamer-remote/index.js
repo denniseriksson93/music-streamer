@@ -1,5 +1,5 @@
 import { addDevice } from "./components/add-device/add-device.js";
-import { deviceSettings } from "./components/device-settings/device-settings.js";
+import { createDeviceSettings } from "./components/device-settings/device-settings.js";
 import { devices } from "./components/devices/devices.js";
 import { globalVolume } from "./components/global-volume/global-volume.js";
 import { header } from "./components/header/header.js";
@@ -13,6 +13,8 @@ if (isSignedIn) {
   globalVolume.render();
   devices.render();
   addDevice.render();
+
+  const deviceSettings = createDeviceSettings();
 
   STATE.registerOnStateChanged("devices", globalVolume.render);
   STATE.registerOnStateChanged("devices", devices.render);

@@ -43,7 +43,7 @@ export const devices = {
       volumeSlider.setAttribute("type", "range");
       volumeSlider.setAttribute("min", "0");
       volumeSlider.setAttribute("max", DEVICE_MAX_VOLUME.toString());
-      volumeSlider.setAttribute("value", volume.toString());
+      volumeSlider.value = volume.toString();
       volumeSlider.addEventListener("change", (event) => {
         const { devices } = STATE.get();
         const thisDevice = devices.find((device) => device.id === id);
