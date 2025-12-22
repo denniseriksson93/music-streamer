@@ -22,7 +22,7 @@ while (true) {
 window.onSpotifyWebPlaybackSDKReady = async () => {
   // @ts-ignore
   const player = new Spotify.Player({
-    name: "Music streamer",
+    name: "Music Streamer",
     getOAuthToken: async (
       /** @type {(accessToken: string | undefined) => void} */ cb
     ) => {

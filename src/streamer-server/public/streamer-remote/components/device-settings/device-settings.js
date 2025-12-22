@@ -95,11 +95,9 @@ export const createDeviceSettings = () => {
   saveAndCloseButton.setAttribute("class", "full-width");
   saveAndCloseButton.appendChild(iconTextElement("save", "Save"));
   saveAndCloseButton.addEventListener("click", () => {
-    const { editingDevice } = STATE.get();
+    const { editingDevice, devices } = STATE.get();
 
     if (editingDevice) {
-      const { devices } = STATE.get();
-
       const deviceToUpdate = devices.find(({ id }) => id === editingDevice.id);
 
       if (deviceToUpdate) {
@@ -110,10 +108,40 @@ export const createDeviceSettings = () => {
     }
   });
 
+  const firstRowButtonsContainer = document.createElement("div");
+  firstRowButtonsContainer.setAttribute("class", "first-row-buttons-container");
+  firstRowButtonsContainer.appendChild(closeButton);
+  firstRowButtonsContainer.appendChild(saveAndCloseButton);
+
+  const deleteDeviceButton = document.createElement("button");
+  deleteDeviceButton.setAttribute(
+    "class",
+    "full-width button-danger button-small"
+  );
+  deleteDeviceButton.appendChild(iconTextElement("delete", "Delete device"));
+  deleteDeviceButton.addEventListener("click", () => {
+    const { devices, editingDevice } = STATE.get();
+
+    if (editingDevice) {
+      const didConfirm = window.confirm(
+        `Are you sure you want to delete device ${
+          editingDevice?.customName ?? editingDevice?.name
+        }?`
+      );
+
+      if (didConfirm) {
+        STATE.set({
+          devices: devices.filter(({ id }) => id !== editingDevice.id),
+          editingDevice: undefined,
+        });
+      }
+    }
+  });
+
   const buttonsContainer = document.createElement("div");
   buttonsContainer.setAttribute("class", "buttons-container");
-  buttonsContainer.appendChild(closeButton);
-  buttonsContainer.appendChild(saveAndCloseButton);
+  buttonsContainer.appendChild(firstRowButtonsContainer);
+  buttonsContainer.appendChild(deleteDeviceButton);
 
   const settingsButtonsContainer = document.createElement("div");
   settingsButtonsContainer.setAttribute("class", "settings-buttons-container");
