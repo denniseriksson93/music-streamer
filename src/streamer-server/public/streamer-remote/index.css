@@ -206,7 +206,3 @@ input[type="range"]::-webkit-slider-thumb:active {
   border-radius: 1px;
   margin-left: 4px;
 }
-
-.hide {
-  display: none;
-}

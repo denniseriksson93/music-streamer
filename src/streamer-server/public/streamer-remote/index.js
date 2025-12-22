@@ -19,10 +19,4 @@ if (isSignedIn) {
   STATE.registerOnStateChanged("devices", globalVolume.render);
   STATE.registerOnStateChanged("devices", devices.render);
   STATE.registerOnStateChanged("editingDevice", deviceSettings.render);
-
-  const mainContainer = document.getElementById("main-container");
-
-  if (mainContainer) {
-    mainContainer.classList.remove("hide");
-  }
 }
