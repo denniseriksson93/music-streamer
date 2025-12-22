@@ -160,19 +160,20 @@ export const createDeviceSettings = () => {
     render: () => {
       const { editingDevice } = STATE.get();
 
-      if (!editingDevice) {
+      if (editingDevice) {
+        name.innerText = editingDevice.name;
+
+        customNameInput.value = editingDevice.customName;
+
+        latencyOffsetValue.innerText = editingDevice.latencyOffset.toString();
+
+        if (deviceSettingsContainer.children.length <= 0) {
+          deviceSettingsContainer.replaceChildren(mainContainer);
+          deviceSettingsContainer.style.removeProperty("display");
+        }
+      } else {
         deviceSettingsContainer.replaceChildren();
-        return;
-      }
-
-      name.innerText = editingDevice.name;
-
-      customNameInput.value = editingDevice.customName;
-
-      latencyOffsetValue.innerText = editingDevice.latencyOffset.toString();
-
-      if (deviceSettingsContainer.children.length <= 0) {
-        deviceSettingsContainer.replaceChildren(mainContainer);
+        deviceSettingsContainer.style.display = "none";
       }
     },
   };

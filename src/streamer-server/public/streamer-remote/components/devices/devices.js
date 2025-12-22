@@ -1,3 +1,4 @@
+import { dividerElement } from "../../elements/divider-element.js";
 import { iconElement } from "../../elements/icon-element.js";
 import { DEVICE_MAX_VOLUME } from "../../services/constants.js";
 import { STATE } from "../../services/state.js";
@@ -73,7 +74,15 @@ export const createDevices = () => {
         return frostedGlassContainer;
       });
 
-      devicesContainer.replaceChildren(...devices);
+      if (devices.length > 0) {
+        devicesContainer.replaceChildren(
+          ...[dividerElement(), ...devices, dividerElement()]
+        );
+
+        devicesContainer.style.removeProperty("display");
+      } else {
+        devicesContainer.style.display = "none";
+      }
     },
   };
 };
