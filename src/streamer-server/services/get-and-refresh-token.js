@@ -5,9 +5,13 @@ import {
 import { databaseRepository } from "./database-repository.js";
 
 export const getAndRefreshToken = async () => {
-  const {
-    token: { accessToken, expiresAt, refreshToken },
-  } = await databaseRepository.getData();
+  const { token } = await databaseRepository.getData();
+
+  if (!token) {
+    return undefined;
+  }
+
+  const { accessToken, expiresAt, refreshToken } = token;
 
   const date = new Date();
 
@@ -31,7 +35,7 @@ export const getAndRefreshToken = async () => {
     return undefined;
   }
 
-  /** @type {{access_token: string, expires_in: number, refresh_token: string}} */
+  /** @type {{ access_token: string, expires_in: number, refresh_token: string }} */
   const { access_token, expires_in, refresh_token } = await response.json();
 
   date.setSeconds(date.getSeconds() + expires_in - 30);

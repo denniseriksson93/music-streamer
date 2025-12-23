@@ -5,6 +5,7 @@ import https from "https";
 import fs from "fs";
 import { getAndRefreshToken } from "./services/get-and-refresh-token.js";
 import { login } from "./services/login.js";
+import { databaseRepository } from "./services/database-repository.js";
 
 export const DIRNAME = path.dirname(fileURLToPath(import.meta.url));
 
@@ -31,6 +32,11 @@ app.get("/login", async (req, res) => {
 app.get("/access-token", async (_, res) => {
   const accessToken = await getAndRefreshToken();
   res.send(accessToken);
+});
+
+app.delete("/sign-out", async (_req, res) => {
+  await databaseRepository.setData({ token: undefined });
+  res.sendStatus(200);
 });
 
 const PORT = 3000;

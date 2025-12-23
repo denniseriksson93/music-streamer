@@ -27,7 +27,7 @@ export const login = async (
     throw new Error("unable to login");
   }
 
-  /** @type {{access_token: string, expires_in: number, refresh_token: string}} */
+  /** @type {{ access_token: string, expires_in: number, refresh_token: string }} */
   const { access_token, expires_in, refresh_token } = await response.json();
 
   const date = new Date();

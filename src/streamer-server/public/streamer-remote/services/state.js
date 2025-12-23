@@ -11,7 +11,7 @@
 /**
  * @typedef State
  * @prop {Device[]} devices
- * @prop {Device|undefined} editingDevice
+ * @prop {Device | undefined} editingDevice
  */
 
 /**

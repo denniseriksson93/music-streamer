@@ -1,7 +1,7 @@
 import { CLIENT_ID } from "./constants.js";
 
-const BACKEND_URL = location.origin;
-const REDIRECT_URI = `${location.protocol}//${location.host}${location.pathname}`;
+export const BACKEND_URL = window.location.origin;
+const REDIRECT_URI = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
 
 export const signInToSpotify = async () => {
   const code = new URLSearchParams(window.location.search).get("code");

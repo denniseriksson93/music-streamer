@@ -33,7 +33,7 @@ const setData = async (
 
   data = newData;
 
-  fs.writeFile(getDatabasePath(), JSON.stringify(newData));
+  await fs.writeFile(getDatabasePath(), JSON.stringify(newData));
 };
 
 export const databaseRepository = { getData, setData };
