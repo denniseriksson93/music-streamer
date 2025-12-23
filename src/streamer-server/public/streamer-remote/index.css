@@ -102,6 +102,7 @@ button {
 .button-small {
   padding-top: 6px;
   padding-bottom: 6px;
+  font-size: 14pt;
 }
 
 input {
@@ -218,4 +219,8 @@ input[type="range"]::-webkit-slider-thumb:active {
   width: calc(100% - 8px);
   border-radius: 1px;
   margin-left: 4px;
+}
+
+.full-width {
+  width: 100%;
 }
