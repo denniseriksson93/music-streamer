@@ -197,8 +197,9 @@ input[type="range"]::-webkit-slider-thumb:active {
 
 .icon-text-container {
   display: flex;
-  gap: 8px;
+  gap: 4px;
   justify-content: center;
+  align-items: center;
 }
 
 .frosted-glass {

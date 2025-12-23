@@ -6,16 +6,22 @@
   width: 100%;
   background-color: #000000;
   height: 52px;
+  justify-content: space-between;
 }
 
-.header-name-container {
+#header .header-name-container {
   margin-bottom: 2px;
   font-size: 14pt;
 }
 
-.logo-container {
+#header .logo-container {
   display: flex;
   align-items: center;
   gap: 4px;
   padding: 4px;
+}
+
+#header .refresh-icon-container {
+  padding-right: 16px;
+  font-size: 12pt;
 }

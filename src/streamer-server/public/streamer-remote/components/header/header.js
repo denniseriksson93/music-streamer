@@ -1,4 +1,5 @@
 import { iconElement } from "../../elements/icon-element.js";
+import { iconTextElement } from "../../elements/icon-text-element.js";
 
 export const createHeader = () => {
   const headerContainer = document.getElementById("header");
@@ -18,10 +19,16 @@ export const createHeader = () => {
   logoContainer.appendChild(icon);
   logoContainer.appendChild(headerNameContainer);
 
+  const refreshIcon = iconTextElement("sync", "Resync");
+
+  const refreshIconContainer = document.createElement("div");
+  refreshIconContainer.setAttribute("class", "refresh-icon-container");
+  refreshIconContainer.appendChild(refreshIcon);
+
   return {
     render: () => {
       if (headerContainer.children.length <= 0) {
-        headerContainer.replaceChildren(logoContainer);
+        headerContainer.replaceChildren(logoContainer, refreshIconContainer);
       }
     },
   };

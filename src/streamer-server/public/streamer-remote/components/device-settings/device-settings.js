@@ -165,7 +165,7 @@ export const createDeviceSettings = () => {
 
         customNameInput.value = editingDevice.customName;
 
-        latencyOffsetValue.innerText = editingDevice.latencyOffset.toString();
+        latencyOffsetValue.innerText = `${editingDevice.latencyOffset.toString()} ms`;
 
         if (deviceSettingsContainer.children.length <= 0) {
           deviceSettingsContainer.replaceChildren(mainContainer);
