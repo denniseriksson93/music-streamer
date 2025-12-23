@@ -22,8 +22,14 @@ export const createHeader = () => {
   const refreshIcon = iconTextElement("sync", "Resync");
 
   const refreshIconContainer = document.createElement("div");
-  refreshIconContainer.setAttribute("class", "refresh-icon-container");
+  refreshIconContainer.setAttribute(
+    "class",
+    "refresh-icon-container frosted-glass"
+  );
   refreshIconContainer.appendChild(refreshIcon);
+  refreshIconContainer.addEventListener("click", () =>
+    window.location.reload()
+  );
 
   return {
     render: () => {
