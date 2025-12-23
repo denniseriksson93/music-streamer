@@ -1,6 +1,6 @@
 import { dividerElement } from "../../elements/divider-element.js";
 import { iconTextElement } from "../../elements/icon-text-element.js";
-import { signOutFromSpotify } from "../../services/sign-out-from-spotify.js";
+import { authService } from "../../services/auth-service.js";
 
 export const createSignOut = () => {
   const signOutContainer = document.getElementById("sign-out");
@@ -14,7 +14,7 @@ export const createSignOut = () => {
   const signOutButton = document.createElement("button");
   signOutButton.setAttribute("class", "full-width button-danger button-small");
   signOutButton.appendChild(iconTextElement("logout", "Sign out from Spotify"));
-  signOutButton.addEventListener("click", signOutFromSpotify);
+  signOutButton.addEventListener("click", authService.signOut);
 
   const signOutButtonContainer = document.createElement("div");
   signOutButtonContainer.setAttribute("class", "frosted-glass");
