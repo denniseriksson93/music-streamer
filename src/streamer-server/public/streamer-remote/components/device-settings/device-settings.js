@@ -86,7 +86,7 @@ export const createDeviceSettings = () => {
 
   const closeButton = document.createElement("button");
   closeButton.setAttribute("class", "full-width button-secondary");
-  closeButton.appendChild(iconTextElement("close", "Close"));
+  closeButton.appendChild(iconTextElement("cancel", "Close"));
   closeButton.addEventListener("click", () =>
     STATE.set({ editingDevice: undefined })
   );

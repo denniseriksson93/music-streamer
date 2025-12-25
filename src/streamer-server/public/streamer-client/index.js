@@ -27,13 +27,17 @@ window.onSpotifyWebPlaybackSDKReady = async () => {
       /** @type {(accessToken: string | undefined) => void} */ cb
     ) => {
       const accessToken = await getAccessToken();
-      cb(accessToken);
+
+      if (accessToken) {
+        cb(accessToken);
+      } else {
+        window.location.reload();
+      }
     },
     volume: 0.5,
   });
 
   player.addListener("initialization_error", () => window.location.reload());
-  // player.addListener("authentication_error", () => window.location.reload());
   player.addListener("account_error", () => window.location.reload());
 
   player.connect();
