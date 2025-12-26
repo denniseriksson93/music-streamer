@@ -14,7 +14,7 @@ while (true) {
   if (accessToken) {
     break;
   } else {
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+    await new Promise((resolve) => setTimeout(resolve, 3_000));
   }
 }
 
@@ -47,3 +47,14 @@ const script = window.document.createElement("script");
 script.src = "https://sdk.scdn.co/spotify-player.js";
 script.async = true;
 window.document.body.appendChild(script);
+
+/**
+ * If the user signs out make sure that the streamer no longer is connected
+ */
+setInterval(async () => {
+  const accessToken = await getAccessToken();
+
+  if (!accessToken) {
+    window.location.reload();
+  }
+}, 10_000);
