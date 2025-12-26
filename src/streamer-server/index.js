@@ -34,8 +34,18 @@ app.get("/access-token", async (_, res) => {
   res.send(accessToken);
 });
 
+app.get("/profile", async (_, res) => {
+  const { profile } = await databaseRepository.getData();
+
+  if (profile) {
+    res.send(profile);
+  } else {
+    res.sendStatus(204);
+  }
+});
+
 app.delete("/sign-out", async (_req, res) => {
-  await databaseRepository.setData({ token: undefined });
+  await databaseRepository.setData({ token: undefined, profile: undefined });
   res.sendStatus(200);
 });
 

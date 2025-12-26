@@ -21,9 +21,8 @@
   padding: 4px;
 }
 
-#header .refresh-icon-container {
+#header .profile {
   padding: 4px 8px 4px 8px;
   margin-right: 4px;
   font-size: 12pt;
-  cursor: pointer;
 }

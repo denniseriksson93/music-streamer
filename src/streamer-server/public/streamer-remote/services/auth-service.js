@@ -48,6 +48,23 @@ const signIn = async () => {
   window.location.href = url.toString();
 };
 
+const getProfile = async () => {
+  const response = await fetch(`${BACKEND_URL}/profile`);
+
+  if (!response.ok) {
+    window.location.reload();
+  }
+
+  if (response.status === 204) {
+    return undefined;
+  }
+
+  /** @type {{ display_name: string | null, email: string | undefined }} */
+  const parsedResponse = await response.json();
+
+  return parsedResponse;
+};
+
 const signOut = async () => {
   const response = await fetch(`${BACKEND_URL}/sign-out`, { method: "delete" });
 
@@ -60,5 +77,6 @@ export const authService = {
   listenToAuthRedirect,
   isSignedIn,
   signIn,
+  getProfile,
   signOut,
 };

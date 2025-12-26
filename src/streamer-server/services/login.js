@@ -1,8 +1,10 @@
 import {
   CLIENT_ID,
+  SPOTIFY_API_URL,
   SPOTIFY_AUTH_API_URL,
 } from "../public/streamer-remote/services/constants.js";
 import { databaseRepository } from "./database-repository.js";
+import * as Types from "./types.js";
 
 export const login = async (
   /** @type {string} */ code,
@@ -34,11 +36,31 @@ export const login = async (
 
   date.setSeconds(date.getSeconds() + expires_in - 30);
 
+  const profile = await getProfile(access_token);
+
   databaseRepository.setData({
     token: {
       accessToken: access_token,
       expiresAt: date.toISOString(),
       refreshToken: refresh_token,
     },
+    profile,
   });
+};
+
+const getProfile = async (/** @type {string} */ accessToken) => {
+  const response = await fetch(`${SPOTIFY_API_URL}/v1/me`, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("unable to get profile");
+  }
+
+  /** @type {NonNullable<Types.Database['profile']>} */
+  const parsedResponse = await response.json();
+
+  return parsedResponse;
 };
