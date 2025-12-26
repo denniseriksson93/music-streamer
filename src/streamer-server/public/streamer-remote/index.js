@@ -1,4 +1,3 @@
-import { createAddDevice } from "./components/add-device/add-device.js";
 import { createDeviceSettings } from "./components/device-settings/device-settings.js";
 import { createDevices } from "./components/devices/devices.js";
 import { createGlobalVolume } from "./components/global-volume/global-volume.js";
@@ -17,13 +16,11 @@ createHeader().render();
 if (isSignedIn) {
   const globalVolume = createGlobalVolume();
   const devices = createDevices();
-  const addDevice = createAddDevice();
   const deviceSettings = createDeviceSettings();
   const signOut = createSignOut();
 
   globalVolume.render();
   devices.render();
-  addDevice.render();
   signOut.render();
 
   STATE.registerOnStateChanged("devices", globalVolume.render);

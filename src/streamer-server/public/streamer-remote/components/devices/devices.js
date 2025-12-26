@@ -1,5 +1,6 @@
 import { dividerElement } from "../../elements/divider-element.js";
 import { iconElement } from "../../elements/icon-element.js";
+import { iconTextElement } from "../../elements/icon-text-element.js";
 import { DEVICE_MAX_VOLUME } from "../../services/constants.js";
 import { STATE } from "../../services/state.js";
 
@@ -74,9 +75,22 @@ export const createDevices = () => {
         return frostedGlassContainer;
       });
 
+      const resyncDevicesButton = document.createElement("button");
+      resyncDevicesButton.setAttribute("class", "button-secondary full-width ");
+      resyncDevicesButton.appendChild(iconTextElement("sync", "Resync"));
+
+      const addDeviceButton = document.createElement("button");
+      addDeviceButton.setAttribute("class", "full-width");
+      addDeviceButton.appendChild(iconTextElement("add_circle", "Add device"));
+
+      const buttonsContainer = document.createElement("div");
+      buttonsContainer.setAttribute("class", "buttons-container frosted-glass");
+      buttonsContainer.appendChild(resyncDevicesButton);
+      buttonsContainer.appendChild(addDeviceButton);
+
       if (devices.length > 0) {
         devicesContainer.replaceChildren(
-          ...[dividerElement(), ...devices, dividerElement()]
+          ...[dividerElement(), ...devices, buttonsContainer, dividerElement()]
         );
 
         devicesContainer.style.removeProperty("display");

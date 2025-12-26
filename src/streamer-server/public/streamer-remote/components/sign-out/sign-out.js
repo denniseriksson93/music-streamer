@@ -9,8 +9,6 @@ export const createSignOut = () => {
     throw new Error("element with id 'sign-out' is missing in the DOM");
   }
 
-  const divider = dividerElement();
-
   const signOutButton = document.createElement("button");
   signOutButton.setAttribute(
     "class",
@@ -26,7 +24,7 @@ export const createSignOut = () => {
   return {
     render: () => {
       if (signOutContainer.children.length <= 0) {
-        signOutContainer.replaceChildren(divider, signOutButtonContainer);
+        signOutContainer.replaceChildren(signOutButtonContainer);
       }
     },
   };
