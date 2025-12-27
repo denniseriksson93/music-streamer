@@ -45,7 +45,7 @@ app.get("/profile", async (_, res) => {
   }
 });
 
-app.delete("/sign-out", async (_req, res) => {
+app.delete("/sign-out", async (_, res) => {
   await databaseRepository.setData({ token: undefined, profile: undefined });
   res.sendStatus(200);
 });
