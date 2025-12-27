@@ -14,7 +14,8 @@ export const createDevices = () => {
   return {
     render: () => {
       const devices = STATE.get().devices.map((device) => {
-        const { id, connected, name, customName, volume } = device;
+        const { bluetoothAddress, connected, name, customName, volume } =
+          device;
 
         const nameContainer = document.createElement("div");
         nameContainer.innerText = customName ?? name;
@@ -49,7 +50,9 @@ export const createDevices = () => {
         volumeSlider.value = volume.toString();
         volumeSlider.addEventListener("change", (event) => {
           const { devices } = STATE.get();
-          const thisDevice = devices.find((device) => device.id === id);
+          const thisDevice = devices.find(
+            (device) => device.bluetoothAddress === bluetoothAddress
+          );
 
           if (
             thisDevice &&

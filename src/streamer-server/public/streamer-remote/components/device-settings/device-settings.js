@@ -98,7 +98,10 @@ export const createDeviceSettings = () => {
     const { editingDevice, devices } = STATE.get();
 
     if (editingDevice) {
-      const deviceToUpdate = devices.find(({ id }) => id === editingDevice.id);
+      const deviceToUpdate = devices.find(
+        ({ bluetoothAddress }) =>
+          bluetoothAddress === editingDevice.bluetoothAddress
+      );
 
       if (deviceToUpdate) {
         Object.assign(deviceToUpdate, editingDevice);
@@ -131,7 +134,10 @@ export const createDeviceSettings = () => {
 
       if (didConfirm) {
         STATE.set({
-          devices: devices.filter(({ id }) => id !== editingDevice.id),
+          devices: devices.filter(
+            ({ bluetoothAddress }) =>
+              bluetoothAddress !== editingDevice.bluetoothAddress
+          ),
           editingDevice: undefined,
         });
       }
@@ -163,7 +169,7 @@ export const createDeviceSettings = () => {
       if (editingDevice) {
         name.innerText = editingDevice.name;
 
-        customNameInput.value = editingDevice.customName;
+        customNameInput.value = editingDevice.customName ?? "";
 
         latencyOffsetValue.innerText = `${editingDevice.latencyOffset.toString()} ms`;
 

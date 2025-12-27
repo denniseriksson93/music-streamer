@@ -6,6 +6,7 @@ import fs from "fs";
 import { getAndRefreshToken } from "./services/get-and-refresh-token.js";
 import { login } from "./services/login.js";
 import { databaseRepository } from "./services/database-repository.js";
+import { devicesService } from "./services/devices-service.js";
 
 export const DIRNAME = path.dirname(fileURLToPath(import.meta.url));
 
@@ -49,6 +50,11 @@ app.delete("/sign-out", async (_req, res) => {
   res.sendStatus(200);
 });
 
+app.get("/devices", async (_, res) => {
+  const devices = await devicesService.getDevices();
+  res.send(devices);
+});
+
 const PORT = 3000;
 
 https
@@ -60,5 +66,5 @@ https
     app
   )
   .listen(PORT, () => {
-    console.log(`Listening on port https://192.168.68.56:${PORT}`);
+    console.log(`Listening on port https://192.168.68.52:${PORT}`);
   });

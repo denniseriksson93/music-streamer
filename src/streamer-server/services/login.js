@@ -60,7 +60,7 @@ const getProfile = async (/** @type {string} */ accessToken) => {
   }
 
   /** @type {NonNullable<Types.Database['profile']>} */
-  const parsedResponse = await response.json();
+  const { display_name, email } = await response.json();
 
-  return parsedResponse;
+  return { display_name, email };
 };

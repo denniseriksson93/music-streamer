@@ -2,7 +2,7 @@ import { iconElement } from "../../elements/icon-element.js";
 import { DEVICE_MAX_VOLUME } from "../../services/constants.js";
 import { STATE } from "../../services/state.js";
 
-const VOLUME_STEP = 3_000;
+const VOLUME_STEP = 5;
 
 export const createGlobalVolume = () => {
   const globalVolumeContainer = document.getElementById("global-volume");

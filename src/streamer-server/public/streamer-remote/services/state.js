@@ -1,6 +1,6 @@
 /**
  * @typedef Device
- * @prop {string} id
+ * @prop {string} bluetoothAddress
  * @prop {boolean} connected
  * @prop {string} name
  * @prop {string} customName
@@ -20,7 +20,7 @@
 let state = {
   devices: [
     {
-      id: "1245324",
+      bluetoothAddress: "1245324",
       connected: true,
       name: "Sony XB10",
       customName: "Kitchen speaker",
@@ -28,7 +28,7 @@ let state = {
       latencyOffset: 0,
     },
     {
-      id: "2135235234",
+      bluetoothAddress: "2135235234",
       connected: false,
       name: "JBL 124ls",
       customName: "Living room",
@@ -36,7 +36,7 @@ let state = {
       latencyOffset: 0,
     },
     {
-      id: "21352356235",
+      bluetoothAddress: "21352356235",
       connected: true,
       name: "BOSE Sound Link mini",
       customName: "Bathroom",

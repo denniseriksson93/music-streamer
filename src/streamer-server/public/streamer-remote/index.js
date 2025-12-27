@@ -5,6 +5,7 @@ import { createHeader } from "./components/header/header.js";
 import { createSignIn } from "./components/sign-in/sign-in.js";
 import { createSignOut } from "./components/sign-out/sign-out.js";
 import { authService } from "./services/auth-service.js";
+import { devicesService } from "./services/devices-service.js";
 import { STATE } from "./services/state.js";
 
 await authService.listenToAuthRedirect();
@@ -26,6 +27,8 @@ if (isSignedIn) {
   STATE.registerOnStateChanged("devices", globalVolume.render);
   STATE.registerOnStateChanged("devices", devices.render);
   STATE.registerOnStateChanged("editingDevice", deviceSettings.render);
+
+  devicesService.getDevices().then((devices) => STATE.set({ devices }));
 } else {
   createSignIn().render();
 }

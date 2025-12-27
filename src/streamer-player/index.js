@@ -10,4 +10,4 @@ const browser = await puppeteer.launch({
 
 const page = await browser.newPage();
 
-await page.goto("https://192.168.68.56:3000/streamer-client");
+await page.goto("https://192.168.68.52:3000/streamer-client");
