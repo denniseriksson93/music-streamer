@@ -2,6 +2,8 @@ import { dividerElement } from "../../elements/divider-element.js";
 import { iconElement } from "../../elements/icon-element.js";
 import { iconTextElement } from "../../elements/icon-text-element.js";
 import { DEVICE_MAX_VOLUME } from "../../services/constants.js";
+import { devicesService } from "../../services/devices-service.js";
+import { sortBy } from "../../services/sort-by.js";
 import { STATE } from "../../services/state.js";
 
 export const createDevices = () => {
@@ -13,7 +15,9 @@ export const createDevices = () => {
 
   return {
     render: () => {
-      const devices = STATE.get().devices.map((device) => {
+      const devices = sortBy(STATE.get().devices, ({ connected }) =>
+        connected ? 0 : 1
+      ).map((device) => {
         const { bluetoothAddress, connected, name, customName, volume } =
           device;
 
@@ -43,33 +47,36 @@ export const createDevices = () => {
         nameVolumeContainer.appendChild(nameStatusContainer);
         nameVolumeContainer.appendChild(settingsContainer);
 
-        const volumeSlider = document.createElement("input");
-        volumeSlider.setAttribute("type", "range");
-        volumeSlider.setAttribute("min", "0");
-        volumeSlider.setAttribute("max", DEVICE_MAX_VOLUME.toString());
-        volumeSlider.value = volume.toString();
-        volumeSlider.addEventListener("change", (event) => {
-          const { devices } = STATE.get();
-          const thisDevice = devices.find(
-            (device) => device.bluetoothAddress === bluetoothAddress
-          );
-
-          if (
-            thisDevice &&
-            event.target &&
-            "value" in event.target &&
-            typeof event.target.value === "string"
-          ) {
-            thisDevice.volume = +event.target.value;
-
-            STATE.set({ devices });
-          }
-        });
-
         const deviceContainer = document.createElement("div");
         deviceContainer.setAttribute("class", "device-container");
         deviceContainer.appendChild(nameVolumeContainer);
-        deviceContainer.appendChild(volumeSlider);
+
+        if (device.connected) {
+          const volumeSlider = document.createElement("input");
+          volumeSlider.setAttribute("type", "range");
+          volumeSlider.setAttribute("min", "0");
+          volumeSlider.setAttribute("max", DEVICE_MAX_VOLUME.toString());
+          volumeSlider.value = volume.toString();
+          volumeSlider.addEventListener("change", (event) => {
+            const { devices } = STATE.get();
+            const thisDevice = devices.find(
+              (device) => device.bluetoothAddress === bluetoothAddress
+            );
+
+            if (
+              thisDevice &&
+              event.target &&
+              "value" in event.target &&
+              typeof event.target.value === "string"
+            ) {
+              thisDevice.volume = +event.target.value;
+
+              STATE.set({ devices });
+            }
+          });
+
+          deviceContainer.appendChild(volumeSlider);
+        }
 
         const frostedGlassContainer = document.createElement("div");
         frostedGlassContainer.setAttribute("class", "frosted-glass");
@@ -81,6 +88,10 @@ export const createDevices = () => {
       const resyncDevicesButton = document.createElement("button");
       resyncDevicesButton.setAttribute("class", "button-secondary full-width ");
       resyncDevicesButton.appendChild(iconTextElement("sync", "Resync"));
+      resyncDevicesButton.addEventListener(
+        "click",
+        async () => await devicesService.getAndSetDevices()
+      );
 
       const addDeviceButton = document.createElement("button");
       addDeviceButton.setAttribute("class", "full-width");
@@ -91,15 +102,9 @@ export const createDevices = () => {
       buttonsContainer.appendChild(resyncDevicesButton);
       buttonsContainer.appendChild(addDeviceButton);
 
-      if (devices.length > 0) {
-        devicesContainer.replaceChildren(
-          ...[dividerElement(), ...devices, buttonsContainer, dividerElement()]
-        );
-
-        devicesContainer.style.removeProperty("display");
-      } else {
-        devicesContainer.style.display = "none";
-      }
+      devicesContainer.replaceChildren(
+        ...[dividerElement(), ...devices, buttonsContainer, dividerElement()]
+      );
     },
   };
 };

@@ -171,7 +171,12 @@ export const createDeviceSettings = () => {
 
         customNameInput.value = editingDevice.customName ?? "";
 
-        latencyOffsetValue.innerText = `${editingDevice.latencyOffset.toString()} ms`;
+        if (editingDevice.connected) {
+          latencyOffsetValue.innerText = `${editingDevice.latencyOffset.toString()} ms`;
+          latencyOffsetContainer.style.removeProperty("display");
+        } else {
+          latencyOffsetContainer.style.display = "none";
+        }
 
         if (deviceSettingsContainer.children.length <= 0) {
           deviceSettingsContainer.replaceChildren(mainContainer);

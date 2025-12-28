@@ -44,16 +44,21 @@ export const createGlobalVolume = () => {
     render: () => {
       const { devices } = STATE.get();
 
-      if (devices.every(({ volume }) => volume <= 0)) {
-        minusButton.setAttribute("disabled", "disabled");
-      } else {
-        minusButton.removeAttribute("disabled");
-      }
+      if (devices.some(({ connected }) => connected)) {
+        if (devices.every(({ volume }) => volume <= 0)) {
+          minusButton.setAttribute("disabled", "disabled");
+        } else {
+          minusButton.removeAttribute("disabled");
+        }
 
-      if (devices.every(({ volume }) => volume >= DEVICE_MAX_VOLUME)) {
-        plusButton.setAttribute("disabled", "disabled");
+        if (devices.every(({ volume }) => volume >= DEVICE_MAX_VOLUME)) {
+          plusButton.setAttribute("disabled", "disabled");
+        } else {
+          plusButton.removeAttribute("disabled");
+        }
       } else {
-        plusButton.removeAttribute("disabled");
+        minusButton.setAttribute("disabled", "disabled");
+        plusButton.setAttribute("disabled", "disabled");
       }
 
       if (globalVolumeContainer.children.length <= 0) {

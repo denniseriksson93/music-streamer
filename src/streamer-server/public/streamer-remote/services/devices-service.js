@@ -1,7 +1,7 @@
 import { BACKEND_URL } from "./auth-service.js";
 import { STATE } from "./state.js";
 
-const getDevices = async () => {
+const getAndSetDevices = async () => {
   const response = await fetch(`${BACKEND_URL}/devices`);
 
   if (!response.ok) {
@@ -9,9 +9,9 @@ const getDevices = async () => {
   }
 
   /** @type { ReturnType<STATE['get']>['devices']} */
-  const parsedResponse = await response.json();
+  const devices = await response.json();
 
-  return parsedResponse;
+  STATE.set({ devices });
 };
 
-export const devicesService = { getDevices };
+export const devicesService = { getAndSetDevices };

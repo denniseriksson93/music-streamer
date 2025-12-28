@@ -18,32 +18,7 @@
  * @type State
  */
 let state = {
-  devices: [
-    {
-      bluetoothAddress: "1245324",
-      connected: true,
-      name: "Sony XB10",
-      customName: "Kitchen speaker",
-      volume: 10_000,
-      latencyOffset: 0,
-    },
-    {
-      bluetoothAddress: "2135235234",
-      connected: false,
-      name: "JBL 124ls",
-      customName: "Living room",
-      volume: 30_000,
-      latencyOffset: 0,
-    },
-    {
-      bluetoothAddress: "21352356235",
-      connected: true,
-      name: "BOSE Sound Link mini",
-      customName: "Bathroom",
-      volume: 90_000,
-      latencyOffset: 0,
-    },
-  ],
+  devices: [],
   editingDevice: undefined,
 };
 
