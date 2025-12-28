@@ -29,6 +29,8 @@ if (isSignedIn) {
   STATE.registerOnStateChanged("editingDevice", deviceSettings.render);
 
   await devicesService.getAndSetDevices();
+
+  setInterval(async () => await devicesService.getAndSetDevices(), 3_000);
 } else {
   createSignIn().render();
 }

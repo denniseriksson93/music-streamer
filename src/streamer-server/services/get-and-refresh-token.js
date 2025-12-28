@@ -5,7 +5,7 @@ import {
 import { databaseRepository } from "./database-repository.js";
 
 export const getAndRefreshToken = async () => {
-  const { token } = await databaseRepository.getData();
+  const { token, clientSecret } = await databaseRepository.getData();
 
   if (!token) {
     return undefined;
@@ -28,6 +28,7 @@ export const getAndRefreshToken = async () => {
       grant_type: "refresh_token",
       refresh_token: refreshToken,
       client_id: CLIENT_ID,
+      client_secret: clientSecret,
     }),
   });
 

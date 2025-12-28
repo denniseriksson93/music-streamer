@@ -27,8 +27,3 @@
 #devices .status-container {
   font-size: 12pt;
 }
-
-#devices .buttons-container {
-  display: flex;
-  gap: 16px;
-}

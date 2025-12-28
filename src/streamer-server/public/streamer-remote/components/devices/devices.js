@@ -85,25 +85,21 @@ export const createDevices = () => {
         return frostedGlassContainer;
       });
 
-      const resyncDevicesButton = document.createElement("button");
-      resyncDevicesButton.setAttribute("class", "button-secondary full-width ");
-      resyncDevicesButton.appendChild(iconTextElement("sync", "Resync"));
-      resyncDevicesButton.addEventListener(
-        "click",
-        async () => await devicesService.getAndSetDevices()
-      );
-
       const addDeviceButton = document.createElement("button");
       addDeviceButton.setAttribute("class", "full-width");
       addDeviceButton.appendChild(iconTextElement("add_circle", "Add device"));
 
-      const buttonsContainer = document.createElement("div");
-      buttonsContainer.setAttribute("class", "buttons-container frosted-glass");
-      buttonsContainer.appendChild(resyncDevicesButton);
-      buttonsContainer.appendChild(addDeviceButton);
+      const addDevicesButtonContainer = document.createElement("div");
+      addDevicesButtonContainer.setAttribute("class", "frosted-glass");
+      addDevicesButtonContainer.appendChild(addDeviceButton);
 
       devicesContainer.replaceChildren(
-        ...[dividerElement(), ...devices, buttonsContainer, dividerElement()]
+        ...[
+          dividerElement(),
+          ...devices,
+          addDevicesButtonContainer,
+          dividerElement(),
+        ]
       );
     },
   };
