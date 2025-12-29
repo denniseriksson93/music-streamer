@@ -14,28 +14,14 @@ const getConnectedBluetoothDevices = async () => {
   );
 };
 
-let numberOfConnectedDevices = 0;
-
 const updateOutputAudioDevices = async () => {
   const connectedBluetoothDevices = await getConnectedBluetoothDevices();
 
-  if (numberOfConnectedDevices !== connectedBluetoothDevices.length) {
-    for (const { name } of connectedBluetoothDevices) {
-      await Promise.all([
-        execAsync(`pw-link Chromium:output_FL ${name}:playback_FL`),
-        execAsync(`pw-link Chromium:output_FR ${name}:playback_FR`),
-      ])
-        .then(() => {
-          numberOfConnectedDevices = connectedBluetoothDevices.length;
-        })
-        .catch((error) => {
-          const errorAsString = JSON.stringify(error);
-
-          if (errorAsString.includes("File exists")) {
-            numberOfConnectedDevices = connectedBluetoothDevices.length;
-          }
-        });
-    }
+  for (const { name } of connectedBluetoothDevices) {
+    await Promise.all([
+      execAsync(`pw-link Chromium:output_FL ${name}:playback_FL`),
+      execAsync(`pw-link Chromium:output_FR ${name}:playback_FR`),
+    ]).catch(() => undefined);
   }
 };
 
