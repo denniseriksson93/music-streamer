@@ -36,8 +36,8 @@ export const getAndRefreshToken = async () => {
     return undefined;
   }
 
-  /** @type {{ access_token: string, expires_in: number, refresh_token: string }} */
-  const { access_token, expires_in, refresh_token } = await response.json();
+  /** @type {{ access_token: string, expires_in: number }} */
+  const { access_token, expires_in } = await response.json();
 
   date.setSeconds(date.getSeconds() + expires_in - 30);
 
@@ -45,7 +45,7 @@ export const getAndRefreshToken = async () => {
     token: {
       accessToken: access_token,
       expiresAt: date.toISOString(),
-      refreshToken: refresh_token,
+      refreshToken,
     },
   });
 
