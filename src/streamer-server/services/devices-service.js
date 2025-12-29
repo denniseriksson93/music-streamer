@@ -40,19 +40,22 @@ const getDevices = async () => {
   await databaseRepository.setData({ devices });
 
   if (numberOfConnectedDevices !== connectedBluetoothDevices.length) {
-    await execAsync("pactl unload-module module-combine-sink");
+    for (const { name } of connectedBluetoothDevices) {
+      await Promise.all([
+        execAsync(`pw-link Chromium:output_FL ${name}:playback_FL`),
+        execAsync(`pw-link Chromium:output_FR ${name}:playback_FR`),
+      ])
+        .then(() => {
+          numberOfConnectedDevices = connectedBluetoothDevices.length;
+        })
+        .catch((error) => {
+          const errorAsString = JSON.stringify(error);
 
-    const connectedBluetoothDevicesNames = connectedBluetoothDevices
-      .map(({ name }) => name)
-      .join();
-
-    await execAsync(
-      `pactl load-module module-combine-sink slaves=${connectedBluetoothDevicesNames} adjust_time=20 resample_method=trivial`
-    );
-
-    await execAsync("pactl set-default-sink combined");
-
-    numberOfConnectedDevices = connectedBluetoothDevices.length;
+          if (errorAsString.includes("File exists")) {
+            numberOfConnectedDevices = connectedBluetoothDevices.length;
+          }
+        });
+    }
   }
 
   return devices.map(({ bluetoothAddress, name, customName }) => {
