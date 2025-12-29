@@ -7,6 +7,7 @@ import { getAndRefreshToken } from "./services/get-and-refresh-token.js";
 import { login } from "./services/login.js";
 import { databaseRepository } from "./services/database-repository.js";
 import { devicesService } from "./services/devices-service.js";
+import { soundCardService } from "./services/sound-card-service.js";
 
 export const DIRNAME = path.dirname(fileURLToPath(import.meta.url));
 
@@ -54,6 +55,10 @@ app.get("/devices", async (_, res) => {
   const devices = await devicesService.getDevices();
   res.send(devices);
 });
+
+setInterval(async () => {
+  await soundCardService.updateOutputAudioDevices();
+}, 3_000);
 
 const PORT = 3000;
 

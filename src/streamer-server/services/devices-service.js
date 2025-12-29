@@ -1,20 +1,9 @@
-import { exec } from "node:child_process";
-import { promisify } from "node:util";
 import { databaseRepository } from "./database-repository.js";
-
-const execAsync = promisify(exec);
-
-let numberOfConnectedDevices = 0;
+import { soundCardService } from "./sound-card-service.js";
 
 const getDevices = async () => {
-  const { stdout } = await execAsync("pactl -f json list sinks");
-
-  /** @type {{ index: number, name: string, volume: { ['front-left']: { value_percent: string } } | { mono: { value_percent: string } }, properties: { ['api.bluez5.address']: string , ['device.alias']: string, ['device.bus']: string | undefined } }[]} */
-  const connectedDevices = JSON.parse(stdout);
-
-  const connectedBluetoothDevices = connectedDevices.filter(
-    ({ properties }) => properties["device.bus"] === "bluetooth"
-  );
+  const connectedBluetoothDevices =
+    await soundCardService.getConnectedBluetoothDevices();
 
   const { devices } = await databaseRepository.getData();
 
@@ -38,25 +27,6 @@ const getDevices = async () => {
   }
 
   await databaseRepository.setData({ devices });
-
-  if (numberOfConnectedDevices !== connectedBluetoothDevices.length) {
-    for (const { name } of connectedBluetoothDevices) {
-      await Promise.all([
-        execAsync(`pw-link Chromium:output_FL ${name}:playback_FL`),
-        execAsync(`pw-link Chromium:output_FR ${name}:playback_FR`),
-      ])
-        .then(() => {
-          numberOfConnectedDevices = connectedBluetoothDevices.length;
-        })
-        .catch((error) => {
-          const errorAsString = JSON.stringify(error);
-
-          if (errorAsString.includes("File exists")) {
-            numberOfConnectedDevices = connectedBluetoothDevices.length;
-          }
-        });
-    }
-  }
 
   return devices.map(({ bluetoothAddress, name, customName }) => {
     const connectedBluetoothDevice = connectedBluetoothDevices.find(
