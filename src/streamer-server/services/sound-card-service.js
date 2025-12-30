@@ -14,7 +14,31 @@ const getConnectedBluetoothDevices = async () => {
   );
 };
 
+/** @type {string[] | undefined} */
+let previouslyConnectedBluetoothDevicesNames;
+
 const updateOutputAudioDevices = async () => {
+  const connectedBluetoothDevicesNames = (await getConnectedBluetoothDevices())
+    .map(({ name }) => name)
+    .sort();
+
+  if (
+    JSON.stringify(previouslyConnectedBluetoothDevicesNames) !==
+    JSON.stringify(connectedBluetoothDevicesNames)
+  ) {
+    await execAsync("pactl unload-module module-combine-sink");
+
+    await execAsync(
+      `pactl load-module module-combine-sink slaves=${connectedBluetoothDevicesNames.join()}`
+    );
+
+    await execAsync("pactl set-default-sink combined");
+
+    previouslyConnectedBluetoothDevicesNames = connectedBluetoothDevicesNames;
+  }
+};
+
+const updateOutputAudioDevices2 = async () => {
   const connectedBluetoothDevices = await getConnectedBluetoothDevices();
 
   for (const { name } of connectedBluetoothDevices) {
