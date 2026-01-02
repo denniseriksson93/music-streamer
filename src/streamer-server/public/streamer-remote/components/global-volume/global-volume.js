@@ -1,5 +1,6 @@
 import { iconElement } from "../../elements/icon-element.js";
 import { DEVICE_MAX_VOLUME } from "../../services/constants.js";
+import { devicesService } from "../../services/devices-service.js";
 import { STATE } from "../../services/state.js";
 
 const VOLUME_STEP = 5;
@@ -16,14 +17,16 @@ export const createGlobalVolume = () => {
 
   const minusButton = document.createElement("button");
   minusButton.appendChild(iconElement("do_not_disturb_on"));
-  minusButton.addEventListener("click", () =>
-    incrementVolumeOnAllDevices(-VOLUME_STEP)
+  minusButton.addEventListener(
+    "click",
+    async () => await incrementVolumeOnAllDevices(-VOLUME_STEP)
   );
 
   const plusButton = document.createElement("button");
   plusButton.appendChild(iconElement("add_circle"));
-  plusButton.addEventListener("click", () =>
-    incrementVolumeOnAllDevices(VOLUME_STEP)
+  plusButton.addEventListener(
+    "click",
+    async () => await incrementVolumeOnAllDevices(VOLUME_STEP)
   );
 
   const volumeButtonsContainer = document.createElement("div");
@@ -68,12 +71,17 @@ export const createGlobalVolume = () => {
   };
 };
 
-const incrementVolumeOnAllDevices = (/** @type {number} */ increment) => {
+const incrementVolumeOnAllDevices = async (/** @type {number} */ increment) => {
   const { devices } = STATE.get();
 
-  devices.forEach((device) => {
-    device.volume += increment;
-  });
+  await Promise.all(
+    devices.map((device) =>
+      devicesService.setVolumeOnDevice(
+        device.bluetoothAddress,
+        device.volume + increment
+      )
+    )
+  );
 
-  STATE.set({ devices });
+  await devicesService.getAndSetDevices();
 };

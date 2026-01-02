@@ -7,20 +7,18 @@ const getDevices = async () => {
 
   const { devices } = await databaseRepository.getData();
 
-  for (const connectedBluetoothDevice of connectedBluetoothDevices) {
+  for (const { properties } of connectedBluetoothDevices) {
     const storedDevice = devices.find(
       ({ bluetoothAddress }) =>
-        bluetoothAddress ===
-        connectedBluetoothDevice.properties["api.bluez5.address"]
+        bluetoothAddress === properties["api.bluez5.address"]
     );
 
     if (storedDevice) {
-      storedDevice.name = connectedBluetoothDevice.properties["device.alias"];
+      storedDevice.name = properties["device.alias"];
     } else {
       devices.push({
-        bluetoothAddress:
-          connectedBluetoothDevice.properties["api.bluez5.address"],
-        name: connectedBluetoothDevice.properties["device.alias"],
+        bluetoothAddress: properties["api.bluez5.address"],
+        name: properties["device.alias"],
         customName: undefined,
       });
     }

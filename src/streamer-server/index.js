@@ -12,6 +12,7 @@ import { soundCardService } from "./services/sound-card-service.js";
 export const DIRNAME = path.dirname(fileURLToPath(import.meta.url));
 
 const app = express();
+app.use(express.json());
 
 const getStaticPath = (/** @type {string} */ staticPath) =>
   express.static(path.join(DIRNAME, staticPath));
@@ -54,6 +55,22 @@ app.delete("/sign-out", async (_, res) => {
 app.get("/devices", async (_, res) => {
   const devices = await devicesService.getDevices();
   res.send(devices);
+});
+
+app.post("/set-volume", async (req, res) => {
+  const { bluetoothAddress, volume } = req.body;
+
+  if (
+    typeof bluetoothAddress === "string" &&
+    typeof volume === "number" &&
+    volume >= 0 &&
+    volume <= 100
+  ) {
+    await soundCardService.setVolumeOnDevice(bluetoothAddress, volume);
+    res.sendStatus(200);
+  } else {
+    res.sendStatus(400);
+  }
 });
 
 setInterval(async () => {

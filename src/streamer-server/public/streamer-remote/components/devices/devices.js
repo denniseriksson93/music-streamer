@@ -57,8 +57,9 @@ export const createDevices = () => {
           volumeSlider.setAttribute("min", "0");
           volumeSlider.setAttribute("max", DEVICE_MAX_VOLUME.toString());
           volumeSlider.value = volume.toString();
-          volumeSlider.addEventListener("change", (event) => {
+          volumeSlider.addEventListener("change", async (event) => {
             const { devices } = STATE.get();
+
             const thisDevice = devices.find(
               (device) => device.bluetoothAddress === bluetoothAddress
             );
@@ -69,9 +70,12 @@ export const createDevices = () => {
               "value" in event.target &&
               typeof event.target.value === "string"
             ) {
-              thisDevice.volume = +event.target.value;
+              await devicesService.setVolumeOnDevice(
+                device.bluetoothAddress,
+                +event.target.value
+              );
 
-              STATE.set({ devices });
+              await devicesService.getAndSetDevices();
             }
           });
 

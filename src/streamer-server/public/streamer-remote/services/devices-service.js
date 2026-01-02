@@ -14,4 +14,22 @@ const getAndSetDevices = async () => {
   STATE.set({ devices });
 };
 
-export const devicesService = { getAndSetDevices };
+const setVolumeOnDevice = async (
+  /** @type {string} */ bluetoothAddress,
+  /** @type {number} */ volume
+) => {
+  const response = await fetch(`${BACKEND_URL}/set-volume`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ bluetoothAddress, volume }),
+  });
+
+  if (!response.ok) {
+    window.location.reload();
+  }
+};
+
+export const devicesService = { getAndSetDevices, setVolumeOnDevice };

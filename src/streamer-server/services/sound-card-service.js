@@ -49,7 +49,23 @@ const updateOutputAudioDevices2 = async () => {
   }
 };
 
+const setVolumeOnDevice = async (
+  /** @type {string} */ bluetoothAddress,
+  /** @type {number} */ volume
+) => {
+  const connectedBluetoothDevices = await getConnectedBluetoothDevices();
+
+  const deviceToUpdate = connectedBluetoothDevices.find(
+    ({ properties }) => properties["api.bluez5.address"] === bluetoothAddress
+  );
+
+  if (deviceToUpdate) {
+    await execAsync(`pactl set-sink-volume ${deviceToUpdate.name} ${volume}%`);
+  }
+};
+
 export const soundCardService = {
   getConnectedBluetoothDevices,
   updateOutputAudioDevices,
+  setVolumeOnDevice,
 };
