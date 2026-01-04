@@ -34,7 +34,7 @@ window.onSpotifyWebPlaybackSDKReady = async () => {
         window.location.reload();
       }
     },
-    volume: 0.5,
+    volume: 1,
   });
 
   player.addListener("initialization_error", () => window.location.reload());

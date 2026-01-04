@@ -75,12 +75,14 @@ const incrementVolumeOnAllDevices = async (/** @type {number} */ increment) => {
   const { devices } = STATE.get();
 
   await Promise.all(
-    devices.map((device) =>
-      devicesService.setVolumeOnDevice(
-        device.bluetoothAddress,
-        device.volume + increment
+    devices
+      .filter(({ connected }) => connected)
+      .map((device) =>
+        devicesService.setVolumeOnDevice(
+          device.bluetoothAddress,
+          device.volume + increment
+        )
       )
-    )
   );
 
   await devicesService.getAndSetDevices();
