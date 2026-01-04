@@ -13,8 +13,14 @@ export const createDevices = () => {
     throw new Error("element with id 'devices' is missing in the DOM");
   }
 
+  let isChangingVolume = false;
+
   return {
     render: () => {
+      if (isChangingVolume) {
+        return;
+      }
+
       const devices = sortBy(STATE.get().devices, ({ connected }) =>
         connected ? 0 : 1
       ).map((device) => {
@@ -51,13 +57,19 @@ export const createDevices = () => {
         deviceContainer.setAttribute("class", "device-container");
         deviceContainer.appendChild(nameVolumeContainer);
 
-        if (device.connected) {
+        if (connected) {
           const volumeSlider = document.createElement("input");
           volumeSlider.setAttribute("type", "range");
           volumeSlider.setAttribute("min", "0");
           volumeSlider.setAttribute("max", DEVICE_MAX_VOLUME.toString());
           volumeSlider.value = volume.toString();
+
+          volumeSlider.addEventListener("input", () => {
+            isChangingVolume = true;
+          });
+
           volumeSlider.addEventListener("change", async (event) => {
+            isChangingVolume = false;
             const { devices } = STATE.get();
 
             const thisDevice = devices.find(
@@ -71,7 +83,7 @@ export const createDevices = () => {
               typeof event.target.value === "string"
             ) {
               await devicesService.setVolumeOnDevice(
-                device.bluetoothAddress,
+                bluetoothAddress,
                 +event.target.value
               );
 
@@ -85,7 +97,6 @@ export const createDevices = () => {
         const frostedGlassContainer = document.createElement("div");
         frostedGlassContainer.setAttribute("class", "frosted-glass");
         frostedGlassContainer.appendChild(deviceContainer);
-
         return frostedGlassContainer;
       });
 
