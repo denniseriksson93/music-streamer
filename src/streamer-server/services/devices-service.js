@@ -57,4 +57,20 @@ const getDevices = async () => {
   });
 };
 
-export const devicesService = { getDevices };
+const setCustomName = async (
+  /** @type {string} */ bluetoothAddress,
+  /** @type {string | undefined} */ customName
+) => {
+  const { devices } = await databaseRepository.getData();
+
+  const deviceToSetCustomName = devices.find(
+    (device) => device.bluetoothAddress === bluetoothAddress
+  );
+
+  if (deviceToSetCustomName) {
+    deviceToSetCustomName.customName = customName;
+    await databaseRepository.setData({ devices });
+  }
+};
+
+export const devicesService = { getDevices, setCustomName };

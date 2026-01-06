@@ -1,6 +1,7 @@
 import { dividerElement } from "../../elements/divider-element.js";
 import { iconElement } from "../../elements/icon-element.js";
 import { iconTextElement } from "../../elements/icon-text-element.js";
+import { devicesService } from "../../services/devices-service.js";
 import { STATE } from "../../services/state.js";
 
 export const createDeviceSettings = () => {
@@ -27,7 +28,9 @@ export const createDeviceSettings = () => {
         "value" in event.target &&
         typeof event.target.value === "string"
       ) {
-        editingDevice.customName = event.target.value;
+        editingDevice.customName =
+          event.target.value === "" ? undefined : event.target.value;
+
         STATE.set({ editingDevice });
       }
     }
@@ -53,20 +56,18 @@ export const createDeviceSettings = () => {
   const saveAndCloseButton = document.createElement("button");
   saveAndCloseButton.setAttribute("class", "full-width");
   saveAndCloseButton.appendChild(iconTextElement("save", "Save"));
-  saveAndCloseButton.addEventListener("click", () => {
-    const { editingDevice, devices } = STATE.get();
+  saveAndCloseButton.addEventListener("click", async () => {
+    const { editingDevice } = STATE.get();
 
     if (editingDevice) {
-      const deviceToUpdate = devices.find(
-        ({ bluetoothAddress }) =>
-          bluetoothAddress === editingDevice.bluetoothAddress
+      STATE.set({ editingDevice: undefined });
+
+      await devicesService.setCustomNameOnDevice(
+        editingDevice.bluetoothAddress,
+        editingDevice.customName
       );
 
-      if (deviceToUpdate) {
-        Object.assign(deviceToUpdate, editingDevice);
-      }
-
-      STATE.set({ devices, editingDevice: undefined });
+      await devicesService.getAndSetDevices();
     }
   });
 

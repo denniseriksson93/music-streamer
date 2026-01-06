@@ -73,6 +73,20 @@ app.post("/set-volume", async (req, res) => {
   }
 });
 
+app.post("/set-custom-name", async (req, res) => {
+  const { bluetoothAddress, customName } = req.body;
+
+  if (
+    typeof bluetoothAddress === "string" &&
+    (typeof customName === "string" || typeof customName === "undefined")
+  ) {
+    await devicesService.setCustomName(bluetoothAddress, customName);
+    res.sendStatus(200);
+  } else {
+    res.sendStatus(400);
+  }
+});
+
 setInterval(async () => {
   await soundCardService.updateOutputAudioDevices();
 }, 3_000);

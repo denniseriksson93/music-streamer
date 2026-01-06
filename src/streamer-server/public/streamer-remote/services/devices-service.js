@@ -31,4 +31,25 @@ const setVolumeOnDevice = async (
   }
 };
 
-export const devicesService = { getAndSetDevices, setVolumeOnDevice };
+const setCustomNameOnDevice = async (
+  /** @type {string} */ bluetoothAddress,
+  /** @type {string | undefined} */ customName
+) => {
+  const response = await fetch(`${BACKEND_URL}/set-custom-name`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ bluetoothAddress, customName }),
+  });
+
+  if (!response.ok) {
+    window.location.reload();
+  }
+};
+
+export const devicesService = {
+  getAndSetDevices,
+  setVolumeOnDevice,
+  setCustomNameOnDevice,
+};

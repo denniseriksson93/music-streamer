@@ -3,7 +3,7 @@
  * @prop {string} bluetoothAddress
  * @prop {boolean} connected
  * @prop {string} name
- * @prop {string} customName
+ * @prop {string | undefined} customName
  * @prop {number} volume
  */
 
