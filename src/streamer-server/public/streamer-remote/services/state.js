@@ -5,7 +5,6 @@
  * @prop {string} name
  * @prop {string} customName
  * @prop {number} volume
- * @prop {number} latencyOffset
  */
 
 /**

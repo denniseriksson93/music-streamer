@@ -222,6 +222,10 @@ input[type="range"]::-webkit-slider-thumb:active {
   opacity: 0.6;
 }
 
+.divider.black {
+  background-color: #000000;
+}
+
 .full-width {
   width: 100%;
 }

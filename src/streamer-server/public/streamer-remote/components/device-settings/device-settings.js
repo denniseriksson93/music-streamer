@@ -1,3 +1,4 @@
+import { dividerElement } from "../../elements/divider-element.js";
 import { iconElement } from "../../elements/icon-element.js";
 import { iconTextElement } from "../../elements/icon-text-element.js";
 import { STATE } from "../../services/state.js";
@@ -37,52 +38,10 @@ export const createDeviceSettings = () => {
   customNameContainer.appendChild(customNameLabel);
   customNameContainer.appendChild(customNameInput);
 
-  const latencyOffsetLabel = document.createElement("div");
-  latencyOffsetLabel.innerText = "Latency offset";
-
-  const latencyOffsetMinusButton = document.createElement("button");
-  latencyOffsetMinusButton.appendChild(iconElement("do_not_disturb_on"));
-  latencyOffsetMinusButton.addEventListener("click", () => {
-    const { editingDevice } = STATE.get();
-
-    if (editingDevice) {
-      editingDevice.latencyOffset -= 10;
-      STATE.set({ editingDevice });
-    }
-  });
-
-  const latencyOffsetValue = document.createElement("div");
-
-  const latencyOffsetPlusButton = document.createElement("button");
-  latencyOffsetPlusButton.appendChild(iconElement("add_circle"));
-  latencyOffsetPlusButton.addEventListener("click", () => {
-    const { editingDevice } = STATE.get();
-
-    if (editingDevice) {
-      editingDevice.latencyOffset += 10;
-      STATE.set({ editingDevice });
-    }
-  });
-
-  const latencyOffsetInputContainer = document.createElement("div");
-  latencyOffsetInputContainer.setAttribute(
-    "class",
-    "latency-offset-input-container"
-  );
-  latencyOffsetInputContainer.appendChild(latencyOffsetMinusButton);
-  latencyOffsetInputContainer.appendChild(latencyOffsetValue);
-  latencyOffsetInputContainer.appendChild(latencyOffsetPlusButton);
-
-  const latencyOffsetContainer = document.createElement("div");
-  latencyOffsetContainer.setAttribute("class", "latency-offset-container");
-  latencyOffsetContainer.appendChild(latencyOffsetLabel);
-  latencyOffsetContainer.appendChild(latencyOffsetInputContainer);
-
   const settingsContainer = document.createElement("div");
   settingsContainer.setAttribute("class", "settings-container");
   settingsContainer.appendChild(name);
   settingsContainer.appendChild(customNameContainer);
-  settingsContainer.appendChild(latencyOffsetContainer);
 
   const closeButton = document.createElement("button");
   closeButton.setAttribute("class", "full-width button-secondary");
@@ -152,6 +111,7 @@ export const createDeviceSettings = () => {
   const settingsButtonsContainer = document.createElement("div");
   settingsButtonsContainer.setAttribute("class", "settings-buttons-container");
   settingsButtonsContainer.appendChild(settingsContainer);
+  settingsButtonsContainer.appendChild(dividerElement("black"));
   settingsButtonsContainer.appendChild(buttonsContainer);
 
   const contentContainer = document.createElement("div");
@@ -170,13 +130,6 @@ export const createDeviceSettings = () => {
         name.innerText = editingDevice.name;
 
         customNameInput.value = editingDevice.customName ?? "";
-
-        if (editingDevice.connected) {
-          latencyOffsetValue.innerText = `${editingDevice.latencyOffset.toString()} ms`;
-          latencyOffsetContainer.style.removeProperty("display");
-        } else {
-          latencyOffsetContainer.style.display = "none";
-        }
 
         if (deviceSettingsContainer.children.length <= 0) {
           deviceSettingsContainer.replaceChildren(mainContainer);
