@@ -1,4 +1,5 @@
 import { iconElement } from "../../elements/icon-element.js";
+import { clamp } from "../../services/clamp.js";
 import { DEVICE_MAX_VOLUME } from "../../services/constants.js";
 import { devicesService } from "../../services/devices-service.js";
 import { STATE } from "../../services/state.js";
@@ -47,14 +48,18 @@ export const createGlobalVolume = () => {
     render: () => {
       const { devices } = STATE.get();
 
-      if (devices.some(({ connected }) => connected)) {
-        if (devices.every(({ volume }) => volume <= 0)) {
+      const connectedDevices = devices.filter(({ connected }) => connected);
+
+      if (connectedDevices.length > 0) {
+        if (connectedDevices.every(({ volume }) => volume <= 0)) {
           minusButton.setAttribute("disabled", "disabled");
         } else {
           minusButton.removeAttribute("disabled");
         }
 
-        if (devices.every(({ volume }) => volume >= DEVICE_MAX_VOLUME)) {
+        if (
+          connectedDevices.every(({ volume }) => volume >= DEVICE_MAX_VOLUME)
+        ) {
           plusButton.setAttribute("disabled", "disabled");
         } else {
           plusButton.removeAttribute("disabled");
@@ -80,7 +85,7 @@ const incrementVolumeOnAllDevices = async (/** @type {number} */ increment) => {
       .map((device) =>
         devicesService.setVolumeOnDevice(
           device.bluetoothAddress,
-          device.volume + increment
+          clamp(device.volume + increment, 0, DEVICE_MAX_VOLUME)
         )
       )
   );

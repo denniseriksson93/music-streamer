@@ -21,7 +21,6 @@ const setVolumeOnDevice = async (
   const response = await fetch(`${BACKEND_URL}/set-volume`, {
     method: "POST",
     headers: {
-      Accept: "application/json",
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ bluetoothAddress, volume }),
