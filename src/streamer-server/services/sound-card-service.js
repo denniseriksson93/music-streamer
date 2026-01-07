@@ -64,8 +64,15 @@ const setVolumeOnDevice = async (
   }
 };
 
+const disconnectDevice = async (/** @type {string} */ bluetoothAddress) => {
+  await execAsync(
+    `bluetoothctl disconnect ${bluetoothAddress} && bluetoothctl remove ${bluetoothAddress}`
+  );
+};
+
 export const soundCardService = {
   getConnectedBluetoothDevices,
   updateOutputAudioDevices,
   setVolumeOnDevice,
+  disconnectDevice,
 };

@@ -82,8 +82,8 @@ export const createDeviceSettings = () => {
     "full-width button-danger button-small"
   );
   deleteDeviceButton.appendChild(iconTextElement("delete", "Delete device"));
-  deleteDeviceButton.addEventListener("click", () => {
-    const { devices, editingDevice } = STATE.get();
+  deleteDeviceButton.addEventListener("click", async () => {
+    const { editingDevice } = STATE.get();
 
     if (editingDevice) {
       const didConfirm = window.confirm(
@@ -93,13 +93,9 @@ export const createDeviceSettings = () => {
       );
 
       if (didConfirm) {
-        STATE.set({
-          devices: devices.filter(
-            ({ bluetoothAddress }) =>
-              bluetoothAddress !== editingDevice.bluetoothAddress
-          ),
-          editingDevice: undefined,
-        });
+        STATE.set({ editingDevice: undefined });
+        await devicesService.deleteDevice(editingDevice.bluetoothAddress);
+        await devicesService.getAndSetDevices();
       }
     }
   });

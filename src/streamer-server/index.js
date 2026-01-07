@@ -87,6 +87,17 @@ app.post("/set-custom-name", async (req, res) => {
   }
 });
 
+app.delete("/delete-device", async (req, res) => {
+  const bluetoothAddress = req.query.bluetoothAddress;
+
+  if (typeof bluetoothAddress === "string") {
+    await devicesService.deleteDevice(bluetoothAddress);
+    res.sendStatus(200);
+  } else {
+    res.sendStatus(400);
+  }
+});
+
 setInterval(async () => {
   await soundCardService.updateOutputAudioDevices();
 }, 3_000);

@@ -48,8 +48,20 @@ const setCustomNameOnDevice = async (
   }
 };
 
+const deleteDevice = async (/** @type {string} */ bluetoothAddress) => {
+  const url = new URL(`${BACKEND_URL}/delete-device`);
+  url.searchParams.append("bluetoothAddress", bluetoothAddress);
+
+  const response = await fetch(url, { method: "DELETE" });
+
+  if (!response.ok) {
+    window.location.reload();
+  }
+};
+
 export const devicesService = {
   getAndSetDevices,
   setVolumeOnDevice,
   setCustomNameOnDevice,
+  deleteDevice,
 };

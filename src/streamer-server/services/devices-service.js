@@ -73,4 +73,20 @@ const setCustomName = async (
   }
 };
 
-export const devicesService = { getDevices, setCustomName };
+const deleteDevice = async (/** @type {string} */ bluetoothAddress) => {
+  const { devices } = await databaseRepository.getData();
+
+  const deviceToDelete = devices.find(
+    (device) => device.bluetoothAddress === bluetoothAddress
+  );
+
+  if (deviceToDelete) {
+    await soundCardService.disconnectDevice(bluetoothAddress);
+
+    await databaseRepository.setData({
+      devices: devices.filter((device) => device !== deviceToDelete),
+    });
+  }
+};
+
+export const devicesService = { getDevices, setCustomName, deleteDevice };
