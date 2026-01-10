@@ -1,5 +1,4 @@
 import { dividerElement } from "../../elements/divider-element.js";
-import { iconElement } from "../../elements/icon-element.js";
 import { iconTextElement } from "../../elements/icon-text-element.js";
 import { devicesService } from "../../services/devices-service.js";
 import { STATE } from "../../services/state.js";
