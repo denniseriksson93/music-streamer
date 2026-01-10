@@ -1,5 +1,6 @@
 import { exec } from "node:child_process";
 import { promisify } from "node:util";
+import { wait } from "./wait.js";
 
 const execAsync = promisify(exec);
 
@@ -17,24 +18,34 @@ const getConnectedBluetoothDevices = async () => {
 /** @type {string[] | undefined} */
 let previouslyConnectedBluetoothDevicesNames;
 
-const updateOutputAudioDevices = async () => {
-  const connectedBluetoothDevicesNames = (await getConnectedBluetoothDevices())
-    .map(({ name }) => name)
-    .sort();
+const startUpdateOutputAudioDevicesWorker = async () => {
+  while (true) {
+    try {
+      const connectedBluetoothDevicesNames = (
+        await getConnectedBluetoothDevices()
+      )
+        .map(({ name }) => name)
+        .sort();
 
-  if (
-    JSON.stringify(previouslyConnectedBluetoothDevicesNames) !==
-    JSON.stringify(connectedBluetoothDevicesNames)
-  ) {
-    await execAsync("pactl unload-module module-combine-sink");
+      if (
+        JSON.stringify(previouslyConnectedBluetoothDevicesNames) !==
+        JSON.stringify(connectedBluetoothDevicesNames)
+      ) {
+        await execAsync("pactl unload-module module-combine-sink");
 
-    await execAsync(
-      `pactl load-module module-combine-sink slaves=${connectedBluetoothDevicesNames.join()}`
-    );
+        await execAsync(
+          `pactl load-module module-combine-sink slaves=${connectedBluetoothDevicesNames.join()}`
+        );
 
-    await execAsync("pactl set-default-sink combined");
+        await execAsync("pactl set-default-sink combined");
 
-    previouslyConnectedBluetoothDevicesNames = connectedBluetoothDevicesNames;
+        previouslyConnectedBluetoothDevicesNames =
+          connectedBluetoothDevicesNames;
+      }
+    } catch {
+    } finally {
+      await wait(3_000);
+    }
   }
 };
 
@@ -70,9 +81,14 @@ const disconnectDevice = async (/** @type {string} */ bluetoothAddress) => {
   );
 };
 
+const connectToDevice = async (/** @type {string} */ bluetoothAddress) => {
+  await execAsync(`bluetoothctl connect ${bluetoothAddress}`);
+};
+
 export const soundCardService = {
   getConnectedBluetoothDevices,
-  updateOutputAudioDevices,
+  startUpdateOutputAudioDevicesWorker,
   setVolumeOnDevice,
   disconnectDevice,
+  connectToDevice,
 };

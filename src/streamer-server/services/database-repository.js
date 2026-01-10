@@ -31,9 +31,9 @@ const setData = async (
   /** @type {Types.Database} */
   const newData = { ...oldData, ...newPartialData };
 
-  data = newData;
-
   await fs.writeFile(getDatabasePath(), JSON.stringify(newData));
+
+  data = newData;
 };
 
 export const databaseRepository = { getData, setData };

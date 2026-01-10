@@ -16,6 +16,12 @@ How to list bluetooth devices:
 hcitool dev
 ```
 
+How to reconnect to bluetooth devices:
+
+```
+bluetoothctl connect 30:50:75:08:DA:07
+```
+
 How to change volume of device:
 
 ```

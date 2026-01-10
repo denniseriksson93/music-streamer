@@ -1,5 +1,6 @@
 import { databaseRepository } from "./database-repository.js";
 import { soundCardService } from "./sound-card-service.js";
+import { wait } from "./wait.js";
 
 const getDevices = async () => {
   const connectedBluetoothDevices =
@@ -89,4 +90,26 @@ const deleteDevice = async (/** @type {string} */ bluetoothAddress) => {
   }
 };
 
-export const devicesService = { getDevices, setCustomName, deleteDevice };
+const startReconnectNotConnectedDevicesWorker = async () => {
+  while (true) {
+    try {
+      const notConnectedDevices = (await getDevices()).filter(
+        ({ connected }) => !connected
+      );
+
+      for (const { bluetoothAddress } of notConnectedDevices) {
+        await soundCardService.connectToDevice(bluetoothAddress);
+      }
+    } catch {
+    } finally {
+      await wait(6_000);
+    }
+  }
+};
+
+export const devicesService = {
+  getDevices,
+  setCustomName,
+  deleteDevice,
+  startReconnectNotConnectedDevicesWorker,
+};

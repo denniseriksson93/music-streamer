@@ -98,10 +98,6 @@ app.delete("/delete-device", async (req, res) => {
   }
 });
 
-setInterval(async () => {
-  await soundCardService.updateOutputAudioDevices();
-}, 3_000);
-
 const PORT = 3000;
 
 https
@@ -115,3 +111,8 @@ https
   .listen(PORT, () => {
     console.log(`Listening on port https://192.168.68.52:${PORT}`);
   });
+
+await Promise.all([
+  soundCardService.startUpdateOutputAudioDevicesWorker(),
+  devicesService.startReconnectNotConnectedDevicesWorker(),
+]);
