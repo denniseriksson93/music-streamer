@@ -10,6 +10,8 @@
 
 #add-device .content-container {
   display: flex;
+  flex-direction: column;
+  gap: 16px;
   position: fixed;
   z-index: 3;
   background: rgba(255, 255, 255, 0.6);
@@ -20,4 +22,16 @@
   overflow: auto;
   border-radius: 4px;
   transform: translate(-50%, -50%);
+}
+
+#add-device .not-paired-devices-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+#add-device .not-paired-device-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

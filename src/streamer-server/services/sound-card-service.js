@@ -1,6 +1,6 @@
 import { exec } from "node:child_process";
 import { promisify } from "node:util";
-import { wait } from "./wait.js";
+import { wait } from "../public/streamer-remote/services/wait.js";
 import { databaseRepository } from "./database-repository.js";
 import { isMacAddress } from "./is-mac-address.js";
 

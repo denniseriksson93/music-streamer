@@ -8,7 +8,7 @@ const getAndSetDevices = async () => {
     window.location.reload();
   }
 
-  /** @type { ReturnType<STATE['get']>['devices']} */
+  /** @type {ReturnType<STATE['get']>['devices']} */
   const devices = await response.json();
 
   STATE.set({ devices });
@@ -59,9 +59,23 @@ const deleteDevice = async (/** @type {string} */ bluetoothAddress) => {
   }
 };
 
+const scanDevices = async () => {
+  const response = await fetch(`${BACKEND_URL}/scan-devices`);
+
+  if (!response.ok) {
+    window.location.reload();
+  }
+
+  /** @type {{ bluetoothAddress: string, name: string }[]} */
+  const notConnectedDevices = await response.json();
+
+  return notConnectedDevices;
+};
+
 export const devicesService = {
   getAndSetDevices,
   setVolumeOnDevice,
   setCustomNameOnDevice,
   deleteDevice,
+  scanDevices,
 };

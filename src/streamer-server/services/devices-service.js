@@ -1,8 +1,8 @@
 import { databaseRepository } from "./database-repository.js";
 import { soundCardService } from "./sound-card-service.js";
-import { wait } from "./wait.js";
+import { wait } from "../public/streamer-remote/services/wait.js";
 
-const getDevices = async () => {
+const getAndResyncDevices = async () => {
   const connectedBluetoothDevices =
     await soundCardService.getConnectedBluetoothDevices();
 
@@ -93,7 +93,7 @@ const deleteDevice = async (/** @type {string} */ bluetoothAddress) => {
 const startReconnectNotConnectedDevicesWorker = async () => {
   while (true) {
     try {
-      const notConnectedDevices = (await getDevices()).filter(
+      const notConnectedDevices = (await getAndResyncDevices()).filter(
         ({ connected }) => !connected
       );
 
@@ -108,7 +108,7 @@ const startReconnectNotConnectedDevicesWorker = async () => {
 };
 
 export const devicesService = {
-  getDevices,
+  getAndResyncDevices,
   setCustomName,
   deleteDevice,
   startReconnectNotConnectedDevicesWorker,

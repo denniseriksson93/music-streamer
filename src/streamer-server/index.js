@@ -53,7 +53,7 @@ app.delete("/sign-out", async (_, res) => {
 });
 
 app.get("/devices", async (_, res) => {
-  const devices = await devicesService.getDevices();
+  const devices = await devicesService.getAndResyncDevices();
   res.send(devices);
 });
 
@@ -101,6 +101,17 @@ app.delete("/delete-device", async (req, res) => {
 app.get("/scan-devices", async (_, res) => {
   const availableDevices = await soundCardService.scanDevices();
   res.send(availableDevices);
+});
+
+app.post("/connect-device", async (req, res) => {
+  const { bluetoothAddress } = req.body;
+
+  if (typeof bluetoothAddress === "string") {
+    await soundCardService.connectToDevice(bluetoothAddress);
+    res.sendStatus(200);
+  } else {
+    res.sendStatus(400);
+  }
 });
 
 const PORT = 3000;
