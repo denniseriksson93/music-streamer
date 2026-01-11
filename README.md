@@ -13,7 +13,13 @@ Shattering sound fix:
 How to list bluetooth devices:
 
 ```
-hcitool dev
+bluetoothctl --timeout 6 scan on
+```
+
+How to pair and connect:
+
+```
+bluetoothctl pair 30:50:75:08:DA:07 && bluetoothctl connect 30:50:75:08:DA:07
 ```
 
 How to reconnect to bluetooth devices:

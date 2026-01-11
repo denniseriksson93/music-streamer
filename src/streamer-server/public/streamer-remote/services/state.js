@@ -11,6 +11,7 @@
  * @typedef State
  * @prop {Device[]} devices
  * @prop {Device | undefined} editingDevice
+ * @prop {boolean} showAddDevice
  */
 
 /**
@@ -19,6 +20,7 @@
 let state = {
   devices: [],
   editingDevice: undefined,
+  showAddDevice: false,
 };
 
 /**

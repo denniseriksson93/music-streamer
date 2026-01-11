@@ -98,6 +98,11 @@ app.delete("/delete-device", async (req, res) => {
   }
 });
 
+app.get("/scan-devices", async (_, res) => {
+  const availableDevices = await soundCardService.scanDevices();
+  res.send(availableDevices);
+});
+
 const PORT = 3000;
 
 https

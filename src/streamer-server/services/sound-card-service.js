@@ -1,6 +1,8 @@
 import { exec } from "node:child_process";
 import { promisify } from "node:util";
 import { wait } from "./wait.js";
+import { databaseRepository } from "./database-repository.js";
+import { isMacAddress } from "./is-mac-address.js";
 
 const execAsync = promisify(exec);
 
@@ -85,10 +87,41 @@ const connectToDevice = async (/** @type {string} */ bluetoothAddress) => {
   await execAsync(`bluetoothctl connect ${bluetoothAddress}`);
 };
 
+const scanDevices = async () => {
+  await execAsync("bluetoothctl --timeout 3 scan on");
+  const { stdout } = await execAsync("bluetoothctl devices");
+  const notPairedDevicesRows = stdout.split("Device ");
+  const { devices } = await databaseRepository.getData();
+
+  /** @type {{ bluetoothAddress: string, name: string }[]} */
+  const notPairedDevices = [];
+
+  notPairedDevicesRows.forEach((notPairedDeviceRow) => {
+    const index = notPairedDeviceRow.indexOf(" ");
+    const bluetoothAddress = notPairedDeviceRow.substring(0, index);
+    const name = notPairedDeviceRow.substring(index + 1).replace("\n", "");
+
+    if (
+      bluetoothAddress &&
+      name &&
+      !isMacAddress(name) &&
+      !devices.some((device) => device.bluetoothAddress === bluetoothAddress)
+    ) {
+      notPairedDevices.push({
+        bluetoothAddress,
+        name,
+      });
+    }
+  });
+
+  return notPairedDevices;
+};
+
 export const soundCardService = {
   getConnectedBluetoothDevices,
   startUpdateOutputAudioDevicesWorker,
   setVolumeOnDevice,
   disconnectDevice,
   connectToDevice,
+  scanDevices,
 };
