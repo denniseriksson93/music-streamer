@@ -107,8 +107,8 @@ app.post("/connect-device", async (req, res) => {
   const { bluetoothAddress } = req.body;
 
   if (typeof bluetoothAddress === "string") {
-    await soundCardService.connectToDevice(bluetoothAddress);
-    res.sendStatus(200);
+    const succeeded = await soundCardService.connectToDevice(bluetoothAddress);
+    res.send({ succeeded });
   } else {
     res.sendStatus(400);
   }

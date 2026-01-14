@@ -44,7 +44,8 @@ const startUpdateOutputAudioDevicesWorker = async () => {
         previouslyConnectedBluetoothDevicesNames =
           connectedBluetoothDevicesNames;
       }
-    } catch {
+    } catch (error) {
+      console.error("unable to update output audio devices", error);
     } finally {
       await wait(3_000);
     }
@@ -80,12 +81,13 @@ const setVolumeOnDevice = async (
 const disconnectDevice = async (/** @type {string} */ bluetoothAddress) => {
   await execAsync(
     `bluetoothctl disconnect ${bluetoothAddress} && bluetoothctl remove ${bluetoothAddress}`
-  );
+  ).catch((error) => console.error("unable to disconnect device", error));
 };
 
-const connectToDevice = async (/** @type {string} */ bluetoothAddress) => {
-  await execAsync(`bluetoothctl connect ${bluetoothAddress}`);
-};
+const connectToDevice = async (/** @type {string} */ bluetoothAddress) =>
+  execAsync(`bluetoothctl connect ${bluetoothAddress}`)
+    .then(() => true)
+    .catch(() => false);
 
 const scanDevices = async () => {
   await execAsync("bluetoothctl --timeout 3 scan on");

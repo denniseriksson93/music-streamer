@@ -59,17 +59,42 @@ const deleteDevice = async (/** @type {string} */ bluetoothAddress) => {
   }
 };
 
-const scanDevices = async () => {
-  const response = await fetch(`${BACKEND_URL}/scan-devices`);
+const scanDevices = async (/** @type {AbortController} */ abortController) => {
+  try {
+    const response = await fetch(`${BACKEND_URL}/scan-devices`, {
+      signal: abortController.signal,
+    });
+
+    if (!response.ok) {
+      window.location.reload();
+    }
+
+    /** @type {{ bluetoothAddress: string, name: string }[]} */
+    const notConnectedDevices = await response.json();
+
+    return notConnectedDevices;
+  } catch {
+    return "aborted";
+  }
+};
+
+const connectDevice = async (/** @type {string} */ bluetoothAddress) => {
+  const response = await fetch(`${BACKEND_URL}/connect-device`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ bluetoothAddress }),
+  });
 
   if (!response.ok) {
     window.location.reload();
   }
 
-  /** @type {{ bluetoothAddress: string, name: string }[]} */
-  const notConnectedDevices = await response.json();
+  /** @type {{ succeeded: boolean }} */
+  const { succeeded } = await response.json();
 
-  return notConnectedDevices;
+  return succeeded;
 };
 
 export const devicesService = {
@@ -78,4 +103,5 @@ export const devicesService = {
   setCustomNameOnDevice,
   deleteDevice,
   scanDevices,
+  connectDevice,
 };

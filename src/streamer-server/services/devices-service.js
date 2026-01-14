@@ -100,7 +100,8 @@ const startReconnectNotConnectedDevicesWorker = async () => {
       for (const { bluetoothAddress } of notConnectedDevices) {
         await soundCardService.connectToDevice(bluetoothAddress);
       }
-    } catch {
+    } catch (error) {
+      console.error("unable to reconnect not connected devices", error);
     } finally {
       await wait(6_000);
     }

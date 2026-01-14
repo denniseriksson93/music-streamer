@@ -23,12 +23,15 @@ export const createAddDevice = () => {
   );
   notPairedDevicesContainer.style.display = "none";
 
+  let abortController = new AbortController();
+
   const closeButton = document.createElement("button");
   closeButton.setAttribute("class", "full-width button-secondary");
   closeButton.appendChild(iconTextElement("cancel", "Close"));
-  closeButton.addEventListener("click", () =>
-    STATE.set({ showAddDevice: false })
-  );
+  closeButton.addEventListener("click", () => {
+    abortController.abort();
+    STATE.set({ showAddDevice: false });
+  });
 
   const contentContainer = document.createElement("div");
   contentContainer.setAttribute("class", "content-container frosted-glass");
@@ -47,52 +50,69 @@ export const createAddDevice = () => {
       if (showAddDevice) {
         if (addDeviceContainer.children.length <= 0) {
           const scanDevicesRecursive = async () => {
-            const { showAddDevice } = STATE.get();
+            const devicesResponse = await devicesService.scanDevices(
+              abortController
+            );
 
-            if (showAddDevice) {
-              const notPairedDevices = sortBy(
-                await devicesService.scanDevices(),
-                ({ name }) => name
-              );
-
-              const notPairedDevicesElements = notPairedDevices.map(
-                ({ bluetoothAddress, name }) => {
-                  const nameContainer = document.createElement("div");
-                  nameContainer.setAttribute("class", "name-container");
-                  nameContainer.innerText = name;
-
-                  const pairButton = document.createElement("button");
-                  pairButton.appendChild(iconElement("add_circle"));
-
-                  const pairButtonContainer = document.createElement("div");
-                  pairButtonContainer.appendChild(pairButton);
-
-                  const notPairedDeviceContainer =
-                    document.createElement("div");
-                  notPairedDeviceContainer.setAttribute(
-                    "class",
-                    "not-paired-device-container frosted-glass"
-                  );
-                  notPairedDeviceContainer.appendChild(nameContainer);
-                  notPairedDeviceContainer.appendChild(pairButtonContainer);
-
-                  return notPairedDeviceContainer;
-                }
-              );
-
-              if (notPairedDevices.length > 0) {
-                notPairedDevicesContainer.style.removeProperty("display");
-              } else {
-                notPairedDevicesContainer.style.display = "none";
-              }
-
-              notPairedDevicesContainer.replaceChildren(
-                ...notPairedDevicesElements,
-                dividerElement("black")
-              );
-
-              await scanDevicesRecursive();
+            if (devicesResponse === "aborted") {
+              abortController = new AbortController();
+              return;
             }
+
+            const notPairedDevices = sortBy(
+              devicesResponse,
+              ({ name }) => name
+            );
+
+            const notPairedDevicesElements = notPairedDevices.map(
+              ({ bluetoothAddress, name }) => {
+                const nameContainer = document.createElement("div");
+                nameContainer.setAttribute("class", "name-container");
+                nameContainer.innerText = name;
+
+                const pairButton = document.createElement("button");
+                pairButton.appendChild(iconElement("add_circle"));
+
+                const pairButtonContainer = document.createElement("div");
+                pairButtonContainer.appendChild(pairButton);
+                pairButton.addEventListener("click", async () => {
+                  STATE.set({ showAddDevice: false });
+
+                  const succeeded = await devicesService.connectDevice(
+                    bluetoothAddress
+                  );
+
+                  if (succeeded) {
+                    await devicesService.getAndSetDevices();
+                  } else {
+                    alert(`Unable to connect to ${name}`);
+                  }
+                });
+
+                const notPairedDeviceContainer = document.createElement("div");
+                notPairedDeviceContainer.setAttribute(
+                  "class",
+                  "not-paired-device-container frosted-glass"
+                );
+                notPairedDeviceContainer.appendChild(nameContainer);
+                notPairedDeviceContainer.appendChild(pairButtonContainer);
+
+                return notPairedDeviceContainer;
+              }
+            );
+
+            if (notPairedDevices.length > 0) {
+              notPairedDevicesContainer.style.removeProperty("display");
+            } else {
+              notPairedDevicesContainer.style.display = "none";
+            }
+
+            notPairedDevicesContainer.replaceChildren(
+              ...notPairedDevicesElements,
+              dividerElement("black")
+            );
+
+            await scanDevicesRecursive();
           };
 
           void scanDevicesRecursive();
@@ -101,6 +121,9 @@ export const createAddDevice = () => {
           addDeviceContainer.style.removeProperty("display");
         }
       } else {
+        notPairedDevicesContainer.style.display = "none";
+        notPairedDevicesContainer.replaceChildren();
+
         addDeviceContainer.replaceChildren();
         addDeviceContainer.style.display = "none";
       }
