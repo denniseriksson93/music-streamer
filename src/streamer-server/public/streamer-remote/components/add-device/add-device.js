@@ -1,3 +1,4 @@
+import { dividerElement } from "../../elements/divider-element.js";
 import { iconElement } from "../../elements/icon-element.js";
 import { iconTextElement } from "../../elements/icon-text-element.js";
 import { devicesService } from "../../services/devices-service.js";
@@ -12,13 +13,15 @@ export const createAddDevice = () => {
   }
 
   const searchingContainer = document.createElement("div");
-  searchingContainer.innerText = "Searching...";
+  searchingContainer.setAttribute("class", "searching");
+  searchingContainer.innerText = "Searching";
 
   const notPairedDevicesContainer = document.createElement("div");
   notPairedDevicesContainer.setAttribute(
     "class",
     "not-paired-devices-container"
   );
+  notPairedDevicesContainer.style.display = "none";
 
   const closeButton = document.createElement("button");
   closeButton.setAttribute("class", "full-width button-secondary");
@@ -55,6 +58,7 @@ export const createAddDevice = () => {
               const notPairedDevicesElements = notPairedDevices.map(
                 ({ bluetoothAddress, name }) => {
                   const nameContainer = document.createElement("div");
+                  nameContainer.setAttribute("class", "name-container");
                   nameContainer.innerText = name;
 
                   const pairButton = document.createElement("button");
@@ -76,8 +80,15 @@ export const createAddDevice = () => {
                 }
               );
 
+              if (notPairedDevices.length > 0) {
+                notPairedDevicesContainer.style.removeProperty("display");
+              } else {
+                notPairedDevicesContainer.style.display = "none";
+              }
+
               notPairedDevicesContainer.replaceChildren(
-                ...notPairedDevicesElements
+                ...notPairedDevicesElements,
+                dividerElement("black")
               );
 
               await scanDevicesRecursive();

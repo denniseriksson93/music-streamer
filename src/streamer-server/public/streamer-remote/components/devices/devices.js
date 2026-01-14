@@ -102,7 +102,7 @@ export const createDevices = () => {
 
       const addDeviceButton = document.createElement("button");
       addDeviceButton.setAttribute("class", "full-width");
-      addDeviceButton.appendChild(iconTextElement("add_circle", "Add device"));
+      addDeviceButton.appendChild(iconTextElement("bluetooth", "Add device"));
       addDeviceButton.addEventListener("click", () => {
         STATE.set({ showAddDevice: true });
       });

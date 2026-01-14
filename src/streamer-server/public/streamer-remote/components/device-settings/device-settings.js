@@ -45,12 +45,26 @@ export const createDeviceSettings = () => {
   settingsContainer.appendChild(name);
   settingsContainer.appendChild(customNameContainer);
 
-  const closeButton = document.createElement("button");
-  closeButton.setAttribute("class", "full-width button-secondary");
-  closeButton.appendChild(iconTextElement("cancel", "Close"));
-  closeButton.addEventListener("click", () =>
-    STATE.set({ editingDevice: undefined })
-  );
+  const deleteDeviceButton = document.createElement("button");
+  deleteDeviceButton.setAttribute("class", "full-width button-danger");
+  deleteDeviceButton.appendChild(iconTextElement("delete", "Delete"));
+  deleteDeviceButton.addEventListener("click", async () => {
+    const { editingDevice } = STATE.get();
+
+    if (editingDevice) {
+      const didConfirm = window.confirm(
+        `Are you sure you want to delete device ${
+          editingDevice?.customName ?? editingDevice?.name
+        }?`
+      );
+
+      if (didConfirm) {
+        STATE.set({ editingDevice: undefined });
+        await devicesService.deleteDevice(editingDevice.bluetoothAddress);
+        await devicesService.getAndSetDevices();
+      }
+    }
+  });
 
   const saveAndCloseButton = document.createElement("button");
   saveAndCloseButton.setAttribute("class", "full-width");
@@ -72,37 +86,20 @@ export const createDeviceSettings = () => {
 
   const firstRowButtonsContainer = document.createElement("div");
   firstRowButtonsContainer.setAttribute("class", "first-row-buttons-container");
-  firstRowButtonsContainer.appendChild(closeButton);
+  firstRowButtonsContainer.appendChild(deleteDeviceButton);
   firstRowButtonsContainer.appendChild(saveAndCloseButton);
 
-  const deleteDeviceButton = document.createElement("button");
-  deleteDeviceButton.setAttribute(
-    "class",
-    "full-width button-danger button-small"
+  const closeButton = document.createElement("button");
+  closeButton.setAttribute("class", "full-width button-secondary");
+  closeButton.appendChild(iconTextElement("cancel", "Close"));
+  closeButton.addEventListener("click", () =>
+    STATE.set({ editingDevice: undefined })
   );
-  deleteDeviceButton.appendChild(iconTextElement("delete", "Delete device"));
-  deleteDeviceButton.addEventListener("click", async () => {
-    const { editingDevice } = STATE.get();
-
-    if (editingDevice) {
-      const didConfirm = window.confirm(
-        `Are you sure you want to delete device ${
-          editingDevice?.customName ?? editingDevice?.name
-        }?`
-      );
-
-      if (didConfirm) {
-        STATE.set({ editingDevice: undefined });
-        await devicesService.deleteDevice(editingDevice.bluetoothAddress);
-        await devicesService.getAndSetDevices();
-      }
-    }
-  });
 
   const buttonsContainer = document.createElement("div");
   buttonsContainer.setAttribute("class", "buttons-container");
   buttonsContainer.appendChild(firstRowButtonsContainer);
-  buttonsContainer.appendChild(deleteDeviceButton);
+  buttonsContainer.appendChild(closeButton);
 
   const settingsButtonsContainer = document.createElement("div");
   settingsButtonsContainer.setAttribute("class", "settings-buttons-container");
