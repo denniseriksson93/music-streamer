@@ -19,7 +19,7 @@ const setVolumeOnDevice = async (
   /** @type {number} */ volume
 ) => {
   const response = await fetch(`${BACKEND_URL}/set-volume`, {
-    method: "POST",
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
@@ -36,7 +36,7 @@ const setCustomNameOnDevice = async (
   /** @type {string | undefined} */ customName
 ) => {
   const response = await fetch(`${BACKEND_URL}/set-custom-name`, {
-    method: "POST",
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
@@ -97,7 +97,7 @@ const connectDevice = async (/** @type {string} */ bluetoothAddress) => {
   return succeeded;
 };
 
-export const devicesService = {
+export const backendService = {
   getAndSetDevices,
   setVolumeOnDevice,
   setCustomNameOnDevice,

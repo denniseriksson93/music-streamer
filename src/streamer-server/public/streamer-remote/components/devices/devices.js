@@ -2,7 +2,7 @@ import { dividerElement } from "../../elements/divider-element.js";
 import { iconElement } from "../../elements/icon-element.js";
 import { iconTextElement } from "../../elements/icon-text-element.js";
 import { DEVICE_MAX_VOLUME } from "../../services/constants.js";
-import { devicesService } from "../../services/devices-service.js";
+import { backendService } from "../../services/backend-service.js";
 import { sortBy } from "../../services/sort-by.js";
 import { STATE } from "../../services/state.js";
 
@@ -82,12 +82,12 @@ export const createDevices = () => {
               "value" in event.target &&
               typeof event.target.value === "string"
             ) {
-              await devicesService.setVolumeOnDevice(
+              await backendService.setVolumeOnDevice(
                 bluetoothAddress,
                 +event.target.value
               );
 
-              await devicesService.getAndSetDevices();
+              await backendService.getAndSetDevices();
             }
           });
 

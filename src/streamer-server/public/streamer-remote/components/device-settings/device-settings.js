@@ -1,6 +1,6 @@
 import { dividerElement } from "../../elements/divider-element.js";
 import { iconTextElement } from "../../elements/icon-text-element.js";
-import { devicesService } from "../../services/devices-service.js";
+import { backendService } from "../../services/backend-service.js";
 import { STATE } from "../../services/state.js";
 
 export const createDeviceSettings = () => {
@@ -60,8 +60,8 @@ export const createDeviceSettings = () => {
 
       if (didConfirm) {
         STATE.set({ editingDevice: undefined });
-        await devicesService.deleteDevice(editingDevice.bluetoothAddress);
-        await devicesService.getAndSetDevices();
+        await backendService.deleteDevice(editingDevice.bluetoothAddress);
+        await backendService.getAndSetDevices();
       }
     }
   });
@@ -75,12 +75,12 @@ export const createDeviceSettings = () => {
     if (editingDevice) {
       STATE.set({ editingDevice: undefined });
 
-      await devicesService.setCustomNameOnDevice(
+      await backendService.setCustomNameOnDevice(
         editingDevice.bluetoothAddress,
         editingDevice.customName
       );
 
-      await devicesService.getAndSetDevices();
+      await backendService.getAndSetDevices();
     }
   });
 

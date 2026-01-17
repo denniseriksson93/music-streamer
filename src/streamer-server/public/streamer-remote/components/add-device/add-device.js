@@ -1,7 +1,7 @@
 import { dividerElement } from "../../elements/divider-element.js";
 import { iconElement } from "../../elements/icon-element.js";
 import { iconTextElement } from "../../elements/icon-text-element.js";
-import { devicesService } from "../../services/devices-service.js";
+import { backendService } from "../../services/backend-service.js";
 import { sortBy } from "../../services/sort-by.js";
 import { STATE } from "../../services/state.js";
 
@@ -50,9 +50,8 @@ export const createAddDevice = () => {
       if (showAddDevice) {
         if (addDeviceContainer.children.length <= 0) {
           const scanDevicesRecursive = async () => {
-            const devicesResponse = await devicesService.scanDevices(
-              abortController
-            );
+            const devicesResponse =
+              await backendService.scanDevices(abortController);
 
             if (devicesResponse === "aborted") {
               abortController = new AbortController();
@@ -78,12 +77,11 @@ export const createAddDevice = () => {
                 pairButton.addEventListener("click", async () => {
                   STATE.set({ showAddDevice: false });
 
-                  const succeeded = await devicesService.connectDevice(
-                    bluetoothAddress
-                  );
+                  const succeeded =
+                    await backendService.connectDevice(bluetoothAddress);
 
                   if (succeeded) {
-                    await devicesService.getAndSetDevices();
+                    await backendService.getAndSetDevices();
                   } else {
                     alert(`Unable to connect to ${name}`);
                   }

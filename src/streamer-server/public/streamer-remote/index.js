@@ -6,7 +6,7 @@ import { createHeader } from "./components/header/header.js";
 import { createSignIn } from "./components/sign-in/sign-in.js";
 import { createSignOut } from "./components/sign-out/sign-out.js";
 import { authService } from "./services/auth-service.js";
-import { devicesService } from "./services/devices-service.js";
+import { backendService } from "./services/backend-service.js";
 import { STATE } from "./services/state.js";
 
 await authService.listenToAuthRedirect();
@@ -31,9 +31,9 @@ if (isSignedIn) {
   STATE.registerOnStateChanged("editingDevice", deviceSettings.render);
   STATE.registerOnStateChanged("showAddDevice", addDevice.render);
 
-  await devicesService.getAndSetDevices();
+  await backendService.getAndSetDevices();
 
-  setInterval(async () => await devicesService.getAndSetDevices(), 3_000);
+  setInterval(async () => await backendService.getAndSetDevices(), 3_000);
 } else {
   createSignIn().render();
 }

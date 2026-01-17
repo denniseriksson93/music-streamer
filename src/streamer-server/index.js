@@ -57,7 +57,7 @@ app.get("/devices", async (_, res) => {
   res.send(devices);
 });
 
-app.post("/set-volume", async (req, res) => {
+app.put("/set-volume", async (req, res) => {
   const { bluetoothAddress, volume } = req.body;
 
   if (
@@ -73,7 +73,7 @@ app.post("/set-volume", async (req, res) => {
   }
 });
 
-app.post("/set-custom-name", async (req, res) => {
+app.put("/set-custom-name", async (req, res) => {
   const { bluetoothAddress, customName } = req.body;
 
   if (

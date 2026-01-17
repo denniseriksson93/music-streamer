@@ -1,7 +1,7 @@
 import { iconElement } from "../../elements/icon-element.js";
 import { clamp } from "../../services/clamp.js";
 import { DEVICE_MAX_VOLUME } from "../../services/constants.js";
-import { devicesService } from "../../services/devices-service.js";
+import { backendService } from "../../services/backend-service.js";
 import { STATE } from "../../services/state.js";
 
 const VOLUME_STEP = 5;
@@ -83,12 +83,12 @@ const incrementVolumeOnAllDevices = async (/** @type {number} */ increment) => {
     devices
       .filter(({ connected }) => connected)
       .map((device) =>
-        devicesService.setVolumeOnDevice(
+        backendService.setVolumeOnDevice(
           device.bluetoothAddress,
           clamp(device.volume + increment, 0, DEVICE_MAX_VOLUME)
         )
       )
   );
 
-  await devicesService.getAndSetDevices();
+  await backendService.getAndSetDevices();
 };
