@@ -82,11 +82,12 @@ const deleteDevice = async (/** @type {string} */ bluetoothAddress) => {
   );
 
   if (deviceToDelete) {
-    await soundCardService.disconnectDevice(bluetoothAddress);
-
-    await databaseRepository.setData({
-      devices: devices.filter((device) => device !== deviceToDelete),
-    });
+    await Promise.all([
+      soundCardService.disconnectDevice(bluetoothAddress),
+      databaseRepository.setData({
+        devices: devices.filter((device) => device !== deviceToDelete),
+      }),
+    ]);
   }
 };
 
