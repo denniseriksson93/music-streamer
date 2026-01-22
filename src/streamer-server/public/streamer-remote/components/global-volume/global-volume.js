@@ -20,14 +20,14 @@ export const createGlobalVolume = () => {
   minusButton.appendChild(iconElement("do_not_disturb_on"));
   minusButton.addEventListener(
     "click",
-    async () => await incrementVolumeOnAllDevices(-VOLUME_STEP)
+    async () => await incrementVolumeOnAllDevices(-VOLUME_STEP),
   );
 
   const plusButton = document.createElement("button");
   plusButton.appendChild(iconElement("add_circle"));
   plusButton.addEventListener(
     "click",
-    async () => await incrementVolumeOnAllDevices(VOLUME_STEP)
+    async () => await incrementVolumeOnAllDevices(VOLUME_STEP),
   );
 
   const volumeButtonsContainer = document.createElement("div");
@@ -85,9 +85,9 @@ const incrementVolumeOnAllDevices = async (/** @type {number} */ increment) => {
       .map((device) =>
         backendService.setVolumeOnDevice(
           device.bluetoothAddress,
-          clamp(device.volume + increment, 0, DEVICE_MAX_VOLUME)
-        )
-      )
+          clamp(device.volume + increment, 0, DEVICE_MAX_VOLUME),
+        ),
+      ),
   );
 
   await backendService.getAndSetDevices();

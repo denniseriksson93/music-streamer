@@ -55,7 +55,7 @@ export const createDeviceSettings = () => {
       const didConfirm = window.confirm(
         `Are you sure you want to delete device ${
           editingDevice?.customName ?? editingDevice?.name
-        }?`
+        }?`,
       );
 
       if (didConfirm) {
@@ -77,7 +77,7 @@ export const createDeviceSettings = () => {
 
       await backendService.setCustomNameOnDevice(
         editingDevice.bluetoothAddress,
-        editingDevice.customName
+        editingDevice.customName,
       );
 
       await backendService.getAndSetDevices();
@@ -93,7 +93,7 @@ export const createDeviceSettings = () => {
   closeButton.setAttribute("class", "full-width button-secondary");
   closeButton.appendChild(iconTextElement("cancel", "Close"));
   closeButton.addEventListener("click", () =>
-    STATE.set({ editingDevice: undefined })
+    STATE.set({ editingDevice: undefined }),
   );
 
   const buttonsContainer = document.createElement("div");

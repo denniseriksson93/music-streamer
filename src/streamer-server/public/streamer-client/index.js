@@ -24,7 +24,7 @@ window.onSpotifyWebPlaybackSDKReady = async () => {
   const player = new Spotify.Player({
     name: "Music Streamer",
     getOAuthToken: async (
-      /** @type {(accessToken: string | undefined) => void} */ cb
+      /** @type {(accessToken: string | undefined) => void} */ cb,
     ) => {
       const accessToken = await getAccessToken();
 

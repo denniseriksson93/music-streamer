@@ -16,7 +16,7 @@ const getAndSetDevices = async () => {
 
 const setVolumeOnDevice = async (
   /** @type {string} */ bluetoothAddress,
-  /** @type {number} */ volume
+  /** @type {number} */ volume,
 ) => {
   const response = await fetch(`${BACKEND_URL}/set-volume`, {
     method: "PUT",
@@ -33,7 +33,7 @@ const setVolumeOnDevice = async (
 
 const setCustomNameOnDevice = async (
   /** @type {string} */ bluetoothAddress,
-  /** @type {string | undefined} */ customName
+  /** @type {string | undefined} */ customName,
 ) => {
   const response = await fetch(`${BACKEND_URL}/set-custom-name`, {
     method: "PUT",

@@ -12,7 +12,7 @@ export const createSignOut = () => {
   const signOutButton = document.createElement("button");
   signOutButton.setAttribute(
     "class",
-    "full-width button-secondary button-small"
+    "full-width button-secondary button-small",
   );
   signOutButton.appendChild(iconTextElement("logout", "Sign out from Spotify"));
   signOutButton.addEventListener("click", authService.signOut);

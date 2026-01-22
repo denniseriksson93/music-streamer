@@ -122,7 +122,7 @@ https
       key: fs.readFileSync(path.join(DIRNAME, "../../key.pem")),
       cert: fs.readFileSync(path.join(DIRNAME, "../../cert.pem")),
     },
-    app
+    app,
   )
   .listen(PORT, () => {
     console.log(`Listening on port https://192.168.68.52:${PORT}`);

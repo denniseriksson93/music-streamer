@@ -22,7 +22,7 @@ export const createDevices = () => {
       }
 
       const devices = sortBy(STATE.get().devices, ({ connected }) =>
-        connected ? 0 : 1
+        connected ? 0 : 1,
       ).map((device) => {
         const { bluetoothAddress, connected, name, customName, volume } =
           device;
@@ -73,7 +73,7 @@ export const createDevices = () => {
             const { devices } = STATE.get();
 
             const thisDevice = devices.find(
-              (device) => device.bluetoothAddress === bluetoothAddress
+              (device) => device.bluetoothAddress === bluetoothAddress,
             );
 
             if (
@@ -84,7 +84,7 @@ export const createDevices = () => {
             ) {
               await backendService.setVolumeOnDevice(
                 bluetoothAddress,
-                +event.target.value
+                +event.target.value,
               );
 
               await backendService.getAndSetDevices();
@@ -117,7 +117,7 @@ export const createDevices = () => {
           ...devices,
           addDevicesButtonContainer,
           dividerElement(),
-        ]
+        ],
       );
     },
   };

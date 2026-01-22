@@ -19,7 +19,7 @@ export const createAddDevice = () => {
   const notPairedDevicesContainer = document.createElement("div");
   notPairedDevicesContainer.setAttribute(
     "class",
-    "not-paired-devices-container"
+    "not-paired-devices-container",
   );
   notPairedDevicesContainer.style.display = "none";
 
@@ -60,7 +60,7 @@ export const createAddDevice = () => {
 
             const notPairedDevices = sortBy(
               devicesResponse,
-              ({ name }) => name
+              ({ name }) => name,
             );
 
             const notPairedDevicesElements = notPairedDevices.map(
@@ -90,13 +90,13 @@ export const createAddDevice = () => {
                 const notPairedDeviceContainer = document.createElement("div");
                 notPairedDeviceContainer.setAttribute(
                   "class",
-                  "not-paired-device-container frosted-glass"
+                  "not-paired-device-container frosted-glass",
                 );
                 notPairedDeviceContainer.appendChild(nameContainer);
                 notPairedDeviceContainer.appendChild(pairButtonContainer);
 
                 return notPairedDeviceContainer;
-              }
+              },
             );
 
             if (notPairedDevices.length > 0) {
@@ -107,7 +107,7 @@ export const createAddDevice = () => {
 
             notPairedDevicesContainer.replaceChildren(
               ...notPairedDevicesElements,
-              dividerElement("black")
+              dividerElement("black"),
             );
 
             await scanDevicesRecursive();

@@ -1,5 +1,5 @@
 export const dividerElement = (
-  /** @type {'white'|'black'} */ color = "white"
+  /** @type {'white'|'black'} */ color = "white",
 ) => {
   const iconContainer = document.createElement("div");
 

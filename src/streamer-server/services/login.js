@@ -8,7 +8,7 @@ import * as Types from "./types.js";
 
 export const login = async (
   /** @type {string} */ code,
-  /** @type {string} */ redirectUri
+  /** @type {string} */ redirectUri,
 ) => {
   const { clientSecret } = await databaseRepository.getData();
 

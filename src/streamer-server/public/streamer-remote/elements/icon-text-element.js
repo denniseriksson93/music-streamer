@@ -2,7 +2,7 @@ import { iconElement } from "./icon-element.js";
 
 export const iconTextElement = (
   /** @type {Parameters<typeof iconElement>[0]} */ icon,
-  /** @type {string} */ text
+  /** @type {string} */ text,
 ) => {
   const textContainer = document.createElement("div");
   textContainer.innerText = text;

@@ -41,6 +41,6 @@ export const STATE = {
   },
   registerOnStateChanged: (
     /**@type {keyof State} */ property,
-    /** @type {() => void} */ callback
+    /** @type {() => void} */ callback,
   ) => onStateChangedCallbacks.push([property, callback]),
 };

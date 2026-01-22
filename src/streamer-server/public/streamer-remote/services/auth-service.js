@@ -42,7 +42,7 @@ const signIn = async () => {
   url.searchParams.append("client_id", CLIENT_ID);
   url.searchParams.append(
     "scope",
-    "streaming user-read-email user-read-private"
+    "streaming user-read-email user-read-private",
   );
   url.searchParams.append("redirect_uri", REDIRECT_URI);
   window.location.href = url.toString();

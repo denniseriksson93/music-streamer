@@ -11,7 +11,7 @@ const getAndResyncDevices = async () => {
   for (const { properties } of connectedBluetoothDevices) {
     const storedDevice = devices.find(
       ({ bluetoothAddress }) =>
-        bluetoothAddress === properties["api.bluez5.address"]
+        bluetoothAddress === properties["api.bluez5.address"],
     );
 
     if (storedDevice) {
@@ -29,7 +29,7 @@ const getAndResyncDevices = async () => {
 
   return devices.map(({ bluetoothAddress, name, customName }) => {
     const connectedBluetoothDevice = connectedBluetoothDevices.find(
-      ({ properties }) => properties["api.bluez5.address"] === bluetoothAddress
+      ({ properties }) => properties["api.bluez5.address"] === bluetoothAddress,
     );
 
     let volume = 0;
@@ -38,7 +38,7 @@ const getAndResyncDevices = async () => {
       if ("mono" in connectedBluetoothDevice.volume) {
         volume = +connectedBluetoothDevice.volume.mono.value_percent.replace(
           "%",
-          ""
+          "",
         );
       } else {
         volume = +connectedBluetoothDevice.volume[
@@ -60,12 +60,12 @@ const getAndResyncDevices = async () => {
 
 const setCustomName = async (
   /** @type {string} */ bluetoothAddress,
-  /** @type {string | undefined} */ customName
+  /** @type {string | undefined} */ customName,
 ) => {
   const { devices } = await databaseRepository.getData();
 
   const deviceToSetCustomName = devices.find(
-    (device) => device.bluetoothAddress === bluetoothAddress
+    (device) => device.bluetoothAddress === bluetoothAddress,
   );
 
   if (deviceToSetCustomName) {
@@ -77,25 +77,21 @@ const setCustomName = async (
 const deleteDevice = async (/** @type {string} */ bluetoothAddress) => {
   const { devices } = await databaseRepository.getData();
 
-  const deviceToDelete = devices.find(
-    (device) => device.bluetoothAddress === bluetoothAddress
-  );
-
-  if (deviceToDelete) {
-    await Promise.all([
-      soundCardService.disconnectDevice(bluetoothAddress),
-      databaseRepository.setData({
-        devices: devices.filter((device) => device !== deviceToDelete),
-      }),
-    ]);
-  }
+  await Promise.all([
+    soundCardService.disconnectDevice(bluetoothAddress),
+    databaseRepository.setData({
+      devices: devices.filter(
+        (device) => device.bluetoothAddress !== bluetoothAddress,
+      ),
+    }),
+  ]);
 };
 
 const startReconnectNotConnectedDevicesWorker = async () => {
   while (true) {
     try {
       const notConnectedDevices = (await getAndResyncDevices()).filter(
-        ({ connected }) => !connected
+        ({ connected }) => !connected,
       );
 
       for (const { bluetoothAddress } of notConnectedDevices) {

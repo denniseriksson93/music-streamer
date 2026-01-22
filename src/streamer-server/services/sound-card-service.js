@@ -13,7 +13,7 @@ const getConnectedBluetoothDevices = async () => {
   const connectedDevices = JSON.parse(stdout);
 
   return connectedDevices.filter(
-    ({ properties }) => properties["device.bus"] === "bluetooth"
+    ({ properties }) => properties["device.bus"] === "bluetooth",
   );
 };
 
@@ -36,7 +36,7 @@ const startUpdateOutputAudioDevicesWorker = async () => {
         await execAsync("pactl unload-module module-combine-sink");
 
         await execAsync(
-          `pactl load-module module-combine-sink slaves=${connectedBluetoothDevicesNames.join()}`
+          `pactl load-module module-combine-sink slaves=${connectedBluetoothDevicesNames.join()}`,
         );
 
         await execAsync("pactl set-default-sink combined");
@@ -65,12 +65,12 @@ const updateOutputAudioDevices2 = async () => {
 
 const setVolumeOnDevice = async (
   /** @type {string} */ bluetoothAddress,
-  /** @type {number} */ volume
+  /** @type {number} */ volume,
 ) => {
   const connectedBluetoothDevices = await getConnectedBluetoothDevices();
 
   const deviceToUpdate = connectedBluetoothDevices.find(
-    ({ properties }) => properties["api.bluez5.address"] === bluetoothAddress
+    ({ properties }) => properties["api.bluez5.address"] === bluetoothAddress,
   );
 
   if (deviceToUpdate) {
@@ -91,6 +91,7 @@ const connectToDevice = async (/** @type {string} */ bluetoothAddress) => {
     await execAsync(`bluetoothctl connect ${bluetoothAddress}`);
     return true;
   } catch (error) {
+    console.error("unable to connect to device", error);
     return false;
   }
 };

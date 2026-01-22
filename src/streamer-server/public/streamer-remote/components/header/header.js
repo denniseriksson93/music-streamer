@@ -30,7 +30,7 @@ export const createHeader = () => {
           const { display_name, email } = profile;
 
           profileContainer.replaceChildren(
-            iconTextElement("account_circle", display_name ?? email ?? "")
+            iconTextElement("account_circle", display_name ?? email ?? ""),
           );
         }
       });

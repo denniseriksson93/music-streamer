@@ -72,7 +72,9 @@ input {
 button {
   background-color: #000000;
   border: 1px solid #000000;
-  box-shadow: #ffffff 4px 4px 0 0, #000000 4px 4px 0 1px;
+  box-shadow:
+    #ffffff 4px 4px 0 0,
+    #000000 4px 4px 0 1px;
   color: #ffffff;
   text-align: center;
   padding-left: 12px;
@@ -82,7 +84,9 @@ button {
 .button-secondary {
   background-color: #ffffff;
   border: 1px solid #ffffff;
-  box-shadow: #000000 4px 4px 0 0, #ffffff 4px 4px 0 1px;
+  box-shadow:
+    #000000 4px 4px 0 0,
+    #ffffff 4px 4px 0 1px;
 }
 
 .button-secondary * {
@@ -92,7 +96,9 @@ button {
 .button-danger {
   background-color: #d90429;
   border: 1px solid #d90429;
-  box-shadow: #ffffff 4px 4px 0 0, #d90429 4px 4px 0 1px;
+  box-shadow:
+    #ffffff 4px 4px 0 0,
+    #d90429 4px 4px 0 1px;
 }
 
 .button-danger * {
@@ -108,7 +114,9 @@ button {
 input {
   background-color: #ffffff;
   border: 1px solid #000000;
-  box-shadow: #000000 4px 4px 0 0, #000000 4px 4px 0 1px;
+  box-shadow:
+    #000000 4px 4px 0 0,
+    #000000 4px 4px 0 1px;
   color: #000000;
 }
 
@@ -129,13 +137,17 @@ input:active {
 }
 
 button:not([disabled]):active {
-  box-shadow: #ffffff 2px 2px 0 0, #000000 2px 2px 0 1px;
+  box-shadow:
+    #ffffff 2px 2px 0 0,
+    #000000 2px 2px 0 1px;
   transform: translate(2px, 2px);
 }
 
 input:not([disabled]):active,
 .button-secondary:not([disabled]):active {
-  box-shadow: #000000 2px 2px 0 0, #ffffff 2px 2px 0 1px;
+  box-shadow:
+    #000000 2px 2px 0 0,
+    #ffffff 2px 2px 0 1px;
   transform: translate(2px, 2px);
 }
 

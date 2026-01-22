@@ -24,7 +24,7 @@ const getData = async () => {
 };
 
 const setData = async (
-  /** @type {Partial<Types.Database>} */ newPartialData
+  /** @type {Partial<Types.Database>} */ newPartialData,
 ) => {
   const oldData = await getData();
 
