@@ -66,7 +66,7 @@ const scanDevices = async (/** @type {AbortController} */ abortController) => {
     });
 
     if (!response.ok) {
-      window.location.reload();
+      return [];
     }
 
     /** @type {{ bluetoothAddress: string, name: string }[]} */
@@ -87,14 +87,7 @@ const connectDevice = async (/** @type {string} */ bluetoothAddress) => {
     body: JSON.stringify({ bluetoothAddress }),
   });
 
-  if (!response.ok) {
-    window.location.reload();
-  }
-
-  /** @type {{ succeeded: boolean }} */
-  const { succeeded } = await response.json();
-
-  return succeeded;
+  return response.ok;
 };
 
 export const backendService = {

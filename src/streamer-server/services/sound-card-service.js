@@ -79,21 +79,11 @@ const setVolumeOnDevice = async (
 };
 
 const disconnectDevice = async (/** @type {string} */ bluetoothAddress) => {
-  try {
-    await execAsync(`bluetoothctl remove ${bluetoothAddress}`);
-  } catch (error) {
-    console.error("unable to disconnect device", error);
-  }
+  await execAsync(`bluetoothctl remove ${bluetoothAddress}`);
 };
 
 const connectToDevice = async (/** @type {string} */ bluetoothAddress) => {
-  try {
-    await execAsync(`bluetoothctl connect ${bluetoothAddress}`);
-    return true;
-  } catch (error) {
-    console.error("unable to connect to device", error);
-    return false;
-  }
+  await execAsync(`bluetoothctl connect ${bluetoothAddress}`);
 };
 
 const scanDevices = async () => {
