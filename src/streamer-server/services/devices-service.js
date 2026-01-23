@@ -95,7 +95,9 @@ const startReconnectNotConnectedDevicesWorker = async () => {
       );
 
       for (const { bluetoothAddress } of notConnectedDevices) {
-        await soundCardService.connectToDevice(bluetoothAddress);
+        await soundCardService
+          .connectToDevice(bluetoothAddress)
+          .catch(() => undefined);
       }
     } catch (error) {
       console.error("unable to reconnect not connected devices", error);
